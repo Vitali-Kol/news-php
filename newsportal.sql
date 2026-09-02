@@ -53,7 +53,7 @@ CREATE TABLE `comments` (
   `text` varchar(500) COLLATE utf8_estonian_ci NOT NULL,
   `date` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_estonian_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_estonian_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -62,7 +62,7 @@ CREATE TABLE `comments` (
 
 LOCK TABLES `comments` WRITE;
 /*!40000 ALTER TABLE `comments` DISABLE KEYS */;
-INSERT INTO `comments` VALUES (1,2,1,'Good','2019-11-18 00:00:00'),(2,2,3,'test','2019-11-18 00:00:00'),(3,2,1,'proov','2019-11-26 09:32:34'),(4,2,4,'dfdf','2019-11-26 09:41:50'),(5,2,4,'dd','2019-11-26 09:42:40'),(6,2,4,'ddвввв','2019-11-26 10:03:17'),(7,2,4,'варапо','2019-11-26 11:21:21'),(8,2,4,'test','2019-11-28 08:16:00');
+INSERT INTO `comments` VALUES (1,2,1,'Good','2019-11-18 00:00:00'),(2,2,3,'test','2019-11-18 00:00:00'),(3,2,1,'proov','2019-11-26 09:32:34'),(4,2,4,'dfdf','2019-11-26 09:41:50'),(5,2,4,'dd','2019-11-26 09:42:40'),(6,2,4,'ddвввв','2019-11-26 10:03:17'),(7,2,4,'варапо','2019-11-26 11:21:21'),(8,2,4,'test','2019-11-28 08:16:00'),(9,2,3,'ыы','2026-09-02 09:17:22');
 /*!40000 ALTER TABLE `comments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -137,4 +137,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-09-02  9:16:40
+-- Dump completed on 2026-09-02  9:34:37

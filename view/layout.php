@@ -100,8 +100,19 @@
                             </ul>
                         </li>
                     </ul>
-                    <div class="d-flex align-items-center text-light small">
-                        <i class="bi bi-calendar3 me-2"></i> <?= date('d.m.Y') ?>
+                    <div class="d-flex align-items-center">
+                        <?php if (isset($_SESSION['userId'])): ?>
+                            <a href="admin/index.php" class="btn btn-sm btn-primary rounded-pill px-3 me-2">
+                                <i class="bi bi-shield-lock me-1"></i> Админка (<?= htmlspecialchars($_SESSION['name'] ?? 'User') ?>)
+                            </a>
+                            <a href="admin/index.php?action=logout" class="btn btn-sm btn-outline-light rounded-pill px-3">
+                                <i class="bi bi-box-arrow-right"></i> Выход
+                            </a>
+                        <?php else: ?>
+                            <a href="admin/index.php" class="btn btn-sm btn-outline-primary rounded-pill px-3 text-white border-primary">
+                                <i class="bi bi-shield-lock me-1"></i> Вход в админку
+                            </a>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -147,6 +158,7 @@
                 <div class="col-md-6 text-md-end">
                     <a href="index.php" class="text-secondary text-decoration-none me-3 small">Главная</a>
                     <a href="index.php?action=allnews" class="text-secondary text-decoration-none me-3 small">Все новости</a>
+                    <a href="admin/index.php" class="text-secondary text-decoration-none small">Панель управления</a>
                 </div>
             </div>
         </div>
