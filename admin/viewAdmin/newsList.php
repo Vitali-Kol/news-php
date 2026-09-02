@@ -62,7 +62,7 @@
                             <td><span class="badge bg-secondary"><?= htmlspecialchars($item['category_name'] ?? 'Общее') ?></span></td>
                             <td class="small text-muted"><?= htmlspecialchars($item['author'] ?? 'Админ') ?></td>
                             <td class="text-end">
-                                <a href="../index.php?action=read&id=<?= (int)$item['id'] ?>" target="_blank" class="btn btn-sm btn-outline-info me-1" title="Просмотр на сайте">
+                                <a href="index.php?action=newsDetail&id=<?= (int)$item['id'] ?>" class="btn btn-sm btn-outline-info me-1" title="Детальный просмотр">
                                     <i class="bi bi-eye"></i>
                                 </a>
                                 <a href="index.php?action=newsEdit&id=<?= (int)$item['id'] ?>" class="btn btn-sm btn-outline-secondary me-1" title="Редактировать">

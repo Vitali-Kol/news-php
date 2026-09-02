@@ -35,6 +35,10 @@ if (!$isAuth) {
         case 'news':
             controllerAdminNews::newsList();
             break;
+        case 'newsDetail':
+            $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+            controllerAdminNews::newsDetail($id);
+            break;
         case 'newsAdd':
             controllerAdminNews::newsAddForm();
             break;
