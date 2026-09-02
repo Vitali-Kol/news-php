@@ -53,6 +53,10 @@ if (!$isAuth) {
             $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
             controllerAdminNews::newsEditSave($id);
             break;
+        case 'newsDeleteForm':
+            $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+            controllerAdminNews::newsDeleteForm($id);
+            break;
         case 'newsDelete':
             $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
             controllerAdminNews::newsDelete($id);

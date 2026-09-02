@@ -130,15 +130,38 @@ class modelAdminNews {
         return $result;
     }
 
-    // Удаление новости и связанных комментариев
+    // Получение количества комментариев к новости
+    public static function getCommentCount($newsId) {
+        $db = new db();
+        $row = $db->getOne("SELECT COUNT(*) AS c FROM comments WHERE news_id = :id", ['id' => (int)$newsId]);
+        return (int)($row['c'] ?? 0);
+    }
+
+    // Удаление новости и связанных комментариев (обработка POST-формы подтверждения)
     public static function getNewsDelete($id) {
         $id = (int)$id;
-        $db = new db();
-        // Удаляем комментарии
-        $db->execute("DELETE FROM comments WHERE news_id = :id", ['id' => $id]);
-        // Удаляем новость
-        $res = $db->execute("DELETE FROM news WHERE id = :id", ['id' => $id]);
-        return ['result' => $res, 'message' => $res ? 'Новость удалена.' : 'Ошибка удаления новости.'];
+        $result = ['result' => false, 'message' => ''];
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Проверяем, что в POST-форме передан правильный ID
+            $confirmId = (int)($_POST['news_id'] ?? 0);
+            if ($confirmId !== $id) {
+                $result['message'] = 'Неверный запрос на удаление!';
+                return $result;
+            }
+
+            $db = new db();
+            // Сначала удаляем комментарии
+            $db->execute("DELETE FROM comments WHERE news_id = :id", ['id' => $id]);
+            // Затем саму новость
+            $res = $db->execute("DELETE FROM news WHERE id = :id", ['id' => $id]);
+
+            $result['result'] = $res;
+            $result['message'] = $res ? 'Новость успешно удалена.' : 'Ошибка при удалении новости!';
+        } else {
+            $result['message'] = 'Недопустимый метод запроса.';
+        }
+        return $result;
     }
 }
 ?>

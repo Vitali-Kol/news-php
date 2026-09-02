@@ -68,7 +68,7 @@
                                 <a href="index.php?action=newsEdit&id=<?= (int)$item['id'] ?>" class="btn btn-sm btn-outline-secondary me-1" title="Редактировать">
                                     <i class="bi bi-pencil"></i>
                                 </a>
-                                <a href="index.php?action=newsDelete&id=<?= (int)$item['id'] ?>" class="btn btn-sm btn-outline-danger" title="Удалить" onclick="return confirm('Вы действительно хотите удалить данную новость и её комментарии?');">
+                                <a href="index.php?action=newsDeleteForm&id=<?= (int)$item['id'] ?>" class="btn btn-sm btn-outline-danger" title="Удалить">
                                     <i class="bi bi-trash"></i>
                                 </a>
                             </td>

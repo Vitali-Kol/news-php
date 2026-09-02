@@ -102,8 +102,7 @@ $currentImg = !empty($news['picture']) ? 'data:image/jpeg;base64,' . base64_enco
                 <a href="../index.php?action=read&id=<?= (int)$news['id'] ?>" target="_blank" class="btn btn-outline-secondary rounded-pill btn-sm">
                     <i class="bi bi-box-arrow-up-right me-1"></i> Открыть на сайте
                 </a>
-                <a href="index.php?action=newsDelete&id=<?= (int)$news['id'] ?>" class="btn btn-outline-danger rounded-pill btn-sm"
-                   onclick="return confirm('Удалить новость «<?= htmlspecialchars(addslashes($news['title'])) ?>» и все её комментарии?');">
+                <a href="index.php?action=newsDeleteForm&id=<?= (int)$news['id'] ?>" class="btn btn-outline-danger rounded-pill btn-sm">
                     <i class="bi bi-trash me-1"></i> Удалить новость
                 </a>
             </div>

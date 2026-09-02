@@ -87,10 +87,40 @@ class controllerAdminNews {
         }
     }
 
-    // Удаление новости
+    // Страница подтверждения удаления (GET — показываем форму)
+    public static function newsDeleteForm($id) {
+        $news = modelAdminNews::getNewsByID($id);
+        if (!$news) {
+            controllerAdmin::error404();
+            return;
+        }
+
+        $pageTitle = 'Удаление новости #' . (int)$id;
+        $commentCount = modelAdminNews::getCommentCount($id);
+
+        ob_start();
+        include 'viewAdmin/newsDeleteForm.php';
+        $content = ob_get_clean();
+        include 'viewAdmin/templates/layout.php';
+    }
+
+    // Выполнение удаления (POST — обработка формы подтверждения)
     public static function newsDelete($id) {
-        modelAdminNews::getNewsDelete($id);
-        header('Location: index.php?action=newsAdmin&msg=deleted');
+        $id = (int)$id;
+
+        // Допускаем только POST-запросы (из формы подтверждения)
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            // Если GET — показываем форму подтверждения
+            self::newsDeleteForm($id);
+            return;
+        }
+
+        $res = modelAdminNews::getNewsDelete($id);
+        if ($res['result']) {
+            header('Location: index.php?action=newsAdmin&msg=deleted');
+        } else {
+            header('Location: index.php?action=newsAdmin&error=' . urlencode($res['message']));
+        }
         exit();
     }
 }
