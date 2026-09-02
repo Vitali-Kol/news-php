@@ -100,7 +100,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <?= (isset($_GET['action']) && $_GET['action'] === 'news') ? 'active' : '' ?>" href="index.php?action=news">
+                        <a class="nav-link <?= (isset($_GET['action']) && ($_GET['action'] === 'newsAdmin' || $_GET['action'] === 'news')) ? 'active' : '' ?>" href="index.php?action=newsAdmin">
                             <i class="bi bi-newspaper me-2"></i> Список новостей
                         </a>
                     </li>

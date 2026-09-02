@@ -1,7 +1,7 @@
 <?php
 // Главная страница админ-панели (Дашборд)
 $stats = isset($stats) ? $stats : modelAdmin::getStats();
-$recentNews = isset($recentNews) ? $recentNews : modelAdmin::getNewsList();
+$recentNews = isset($recentNews) ? $recentNews : modelAdminNews::getNewsList();
 ?>
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-2 pb-3 mb-4 border-bottom">
     <div>
@@ -78,7 +78,7 @@ $recentNews = isset($recentNews) ? $recentNews : modelAdmin::getNewsList();
 <div class="card shadow-sm border-0 mb-4">
     <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
         <h5 class="card-title fw-bold mb-0"><i class="bi bi-clock-history me-2 text-primary"></i>Последние публикации</h5>
-        <a href="index.php?action=news" class="btn btn-sm btn-outline-primary rounded-pill px-3">Все новости &rarr;</a>
+        <a href="index.php?action=newsAdmin" class="btn btn-sm btn-outline-primary rounded-pill px-3">Все новости &rarr;</a>
     </div>
     <div class="table-responsive">
         <table class="table table-hover align-middle mb-0">

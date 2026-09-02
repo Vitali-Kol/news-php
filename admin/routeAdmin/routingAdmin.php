@@ -29,33 +29,39 @@ if (!$isAuth) {
         case 'logout':
             controllerAdmin::logoutAction();
             break;
+
+        // Управление новостями через controllerAdminNews
+        case 'newsAdmin':
         case 'news':
-            controllerAdmin::newsList();
+            controllerAdminNews::newsList();
             break;
         case 'newsAdd':
-            controllerAdmin::newsAddForm();
+            controllerAdminNews::newsAddForm();
             break;
         case 'newsAddSave':
-            controllerAdmin::newsAddSave();
+            controllerAdminNews::newsAddSave();
             break;
         case 'newsEdit':
             $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-            controllerAdmin::newsEditForm($id);
+            controllerAdminNews::newsEditForm($id);
             break;
         case 'newsEditSave':
             $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-            controllerAdmin::newsEditSave($id);
+            controllerAdminNews::newsEditSave($id);
             break;
         case 'newsDelete':
             $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-            controllerAdmin::newsDelete($id);
+            controllerAdminNews::newsDelete($id);
             break;
+
+        // Управление профилем
         case 'profile':
             controllerAdmin::profileForm();
             break;
         case 'profileSave':
             controllerAdmin::profileSave();
             break;
+
         default:
             controllerAdmin::error404();
             break;
