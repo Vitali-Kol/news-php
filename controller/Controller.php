@@ -72,6 +72,27 @@ class Controller {
         exit();
     }
 
+    // Форма регистрации нового пользователя
+    public static function registerForm() {
+        $pageTitle = 'Регистрация нового пользователя';
+
+        ob_start();
+        include 'view/formRegister.php';
+        $content = ob_get_clean();
+        include 'view/layout.php';
+    }
+
+    // Обработка данных формы регистрации и вывод ответа
+    public static function registerUser() {
+        $result = Register::registerUser();
+        $pageTitle = 'Результат регистрации';
+
+        ob_start();
+        include 'view/answerRegister.php';
+        $content = ob_get_clean();
+        include 'view/layout.php';
+    }
+
     // Страница ошибки 404
     public static function error404() {
         http_response_code(404);

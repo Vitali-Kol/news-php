@@ -99,6 +99,11 @@
                                 <?php endforeach; ?>
                             </ul>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link <?= (isset($_GET['action']) && $_GET['action'] === 'registerForm') ? 'active fw-bold' : '' ?>" href="index.php?action=registerForm">
+                                <i class="bi bi-person-plus me-1"></i> Регистрация
+                            </a>
+                        </li>
                     </ul>
                     <div class="d-flex align-items-center">
                         <?php if (isset($_SESSION['userId'])): ?>
@@ -109,8 +114,11 @@
                                 <i class="bi bi-box-arrow-right"></i> Выход
                             </a>
                         <?php else: ?>
+                            <a href="index.php?action=registerForm" class="btn btn-sm btn-outline-light rounded-pill px-3 me-2">
+                                <i class="bi bi-person-plus me-1"></i> Регистрация
+                            </a>
                             <a href="admin/index.php" class="btn btn-sm btn-outline-primary rounded-pill px-3 text-white border-primary">
-                                <i class="bi bi-shield-lock me-1"></i> Вход в админку
+                                <i class="bi bi-shield-lock me-1"></i> Вход
                             </a>
                         <?php endif; ?>
                     </div>
@@ -158,6 +166,7 @@
                 <div class="col-md-6 text-md-end">
                     <a href="index.php" class="text-secondary text-decoration-none me-3 small">Главная</a>
                     <a href="index.php?action=allnews" class="text-secondary text-decoration-none me-3 small">Все новости</a>
+                    <a href="index.php?action=registerForm" class="text-secondary text-decoration-none me-3 small">Регистрация</a>
                     <a href="admin/index.php" class="text-secondary text-decoration-none small">Панель управления</a>
                 </div>
             </div>

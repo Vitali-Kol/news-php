@@ -13,6 +13,7 @@ require_once 'inc/db.php';
 require_once 'model/News.php';
 require_once 'model/Category.php';
 require_once 'model/Comments.php';
+require_once 'model/Register.php';
 
 // Подключаем классы представлений
 require_once 'view/news.php';
