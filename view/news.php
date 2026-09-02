@@ -16,6 +16,7 @@ class ViewNews {
         $author = htmlspecialchars($item['author'] ?? 'Редакция');
         $id = (int)($item['id'] ?? 0);
         $catId = (int)($item['category_id'] ?? 0);
+        $commentCount = Comments::getCommentCountByNewsID($id);
 
         // Обрезка текста для превью
         $fullText = strip_tags($item['text'] ?? '');
@@ -41,6 +42,9 @@ class ViewNews {
                     <p class="card-text text-muted small flex-grow-1">' . htmlspecialchars($previewText) . '</p>
                     <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top">
                         <span class="small text-secondary"><i class="bi bi-person"></i> ' . $author . '</span>
+                        <a href="index.php?action=read&id=' . $id . '#comments" class="text-decoration-none text-muted small me-2" title="Комментарии">
+                            <i class="bi bi-chat-dots-fill text-primary"></i> ' . $commentCount . '
+                        </a>
                         <a href="index.php?action=read&id=' . $id . '" class="btn btn-sm btn-outline-primary rounded-pill px-3">Подробнее &rarr;</a>
                     </div>
                 </div>
@@ -83,6 +87,8 @@ class ViewNews {
         $categoryName = htmlspecialchars($item['category_name'] ?? 'Общее');
         $author = htmlspecialchars($item['author'] ?? 'Редакция');
         $catId = (int)($item['category_id'] ?? 0);
+        $id = (int)($item['id'] ?? 0);
+        $commentCount = Comments::getCommentCountByNewsID($id);
         $text = nl2br(htmlspecialchars($item['text'] ?? ''));
 
         echo '
@@ -98,9 +104,10 @@ class ViewNews {
 
             <h1 class="news-title fw-bold mb-3">' . $title . '</h1>
 
-            <div class="news-meta d-flex align-items-center text-muted mb-4 pb-2 border-bottom">
+            <div class="news-meta d-flex flex-wrap align-items-center text-muted mb-4 pb-2 border-bottom">
                 <span class="badge bg-primary me-3 py-2 px-3">' . $categoryName . '</span>
                 <span class="me-3"><i class="bi bi-person-fill"></i> Автор: <strong>' . $author . '</strong></span>
+                <span class="me-3"><i class="bi bi-chat-dots-fill text-primary"></i> Комментариев: <strong>' . $commentCount . '</strong></span>
             </div>
 
             <div class="news-detail-image-wrapper mb-4 text-center">

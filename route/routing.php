@@ -20,6 +20,10 @@ switch ($action) {
         $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
         Controller::ReadNews($id);
         break;
+    case 'insertcomment':
+        $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+        Controller::InsertComment($id);
+        break;
     default:
         Controller::error404();
 }

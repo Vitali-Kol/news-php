@@ -12,9 +12,11 @@ require_once 'inc/db.php';
 // Подключаем классы моделей
 require_once 'model/News.php';
 require_once 'model/Category.php';
+require_once 'model/Comments.php';
 
-// Подключаем класс представлений ViewNews
+// Подключаем классы представлений
 require_once 'view/news.php';
+require_once 'view/comments.php';
 
 // Подключаем контроллер
 require_once 'controller/Controller.php';

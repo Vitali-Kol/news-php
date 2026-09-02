@@ -48,12 +48,28 @@ class Controller {
             return;
         }
 
+        $comments = Comments::getCommentByNewsID($id);
+        $commentsCount = Comments::getCommentCountByNewsID($id);
         $pageTitle = $n['title'] ?? 'Чтение новости';
 
         ob_start();
         include 'view/readnews.php';
         $content = ob_get_clean();
         include 'view/layout.php';
+    }
+
+    // Обработка отправки формы добавления комментария
+    public static function InsertComment($id) {
+        $id = (int)$id;
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['comment'])) {
+            $c = trim($_POST['comment']);
+            if (!empty($c) && $id > 0) {
+                Comments::insertComment($c, $id);
+            }
+        }
+        // Перенаправляем обратно на страницу чтения этой новости
+        header('Location: index.php?action=read&id=' . $id);
+        exit();
     }
 
     // Страница ошибки 404
