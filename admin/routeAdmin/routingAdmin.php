@@ -54,6 +54,29 @@ if (!$isAuth) {
             controllerAdminNews::newsDelete($id);
             break;
 
+        // Управление категориями через controllerAdminCategory
+        case 'categoryAdmin':
+            controllerAdminCategory::categoryList();
+            break;
+        case 'categoryAdd':
+            controllerAdminCategory::categoryAddForm();
+            break;
+        case 'categoryAddSave':
+            controllerAdminCategory::categoryAddSave();
+            break;
+        case 'categoryEdit':
+            $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+            controllerAdminCategory::categoryEditForm($id);
+            break;
+        case 'categoryEditSave':
+            $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+            controllerAdminCategory::categoryEditSave($id);
+            break;
+        case 'categoryDelete':
+            $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+            controllerAdminCategory::categoryDelete($id);
+            break;
+
         // Управление профилем
         case 'profile':
             controllerAdmin::profileForm();

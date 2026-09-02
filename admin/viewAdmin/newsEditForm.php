@@ -4,7 +4,7 @@ $currentImg = !empty($news['picture']) ? 'data:image/jpeg;base64,' . base64_enco
 ?>
 <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
     <h1 class="h3 fw-bold mb-0"><i class="bi bi-pencil-square text-primary me-2"></i>Редактировать новость #<?= (int)$news['id'] ?></h1>
-    <a href="index.php?action=news" class="btn btn-outline-secondary rounded-pill px-3">&larr; К списку новостей</a>
+    <a href="index.php?action=newsAdmin" class="btn btn-outline-secondary rounded-pill px-3">&larr; К списку новостей</a>
 </div>
 
 <?php if (!empty($error)): ?>
@@ -53,7 +53,7 @@ $currentImg = !empty($news['picture']) ? 'data:image/jpeg;base64,' . base64_enco
             </div>
 
             <div class="d-flex justify-content-between">
-                <a href="index.php?action=news" class="btn btn-secondary rounded-pill px-4">Отмена</a>
+                <a href="index.php?action=newsAdmin" class="btn btn-secondary rounded-pill px-4">Отмена</a>
                 <button type="submit" class="btn btn-primary rounded-pill px-5 fw-semibold shadow-sm">
                     <i class="bi bi-save me-1"></i> Сохранить изменения
                 </button>

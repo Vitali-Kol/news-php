@@ -3,7 +3,7 @@
 ?>
 <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
     <h1 class="h3 fw-bold mb-0"><i class="bi bi-plus-circle text-primary me-2"></i>Добавить новость</h1>
-    <a href="index.php?action=news" class="btn btn-outline-secondary rounded-pill px-3">&larr; К списку новостей</a>
+    <a href="index.php?action=newsAdmin" class="btn btn-outline-secondary rounded-pill px-3">&larr; К списку новостей</a>
 </div>
 
 <?php if (!empty($error)): ?>

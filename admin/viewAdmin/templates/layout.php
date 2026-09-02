@@ -110,6 +110,11 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link <?= (isset($_GET['action']) && in_array($_GET['action'], ['categoryAdmin','categoryAdd','categoryEdit'])) ? 'active' : '' ?>" href="index.php?action=categoryAdmin">
+                            <i class="bi bi-folder2-open me-2"></i> Категории
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link <?= (isset($_GET['action']) && $_GET['action'] === 'profile') ? 'active' : '' ?>" href="index.php?action=profile">
                             <i class="bi bi-person-gear me-2"></i> Управление аккаунтом
                         </a>
