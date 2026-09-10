@@ -5,13 +5,14 @@ A web application for a news portal featuring a comprehensive administration pan
 ---
 
 ## Table of Contents
-1. [Key Features](#key-features)
-2. [User Guide / How to Use the Website](#user-guide--how-to-use-the-website)
+1. [Technical Specification (ТЗ)](SPECIFICATION.md)
+2. [Key Features](#key-features)
+3. [User Guide / How to Use the Website](#user-guide--how-to-use-the-website)
    - [Public Website (Regular Users & Visitors)](#1-public-website-regular-users--visitors)
    - [Administration Panel (Administrators)](#2-administration-panel-administrators)
-3. [Test Accounts](#test-accounts)
-4. [Project Structure](#project-structure)
-5. [Installation & Setup](#installation--setup)
+4. [Test Accounts](#test-accounts)
+5. [Project Structure](#project-structure)
+6. [Installation & Setup](#installation--setup)
 
 ---
 
