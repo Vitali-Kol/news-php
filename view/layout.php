@@ -55,6 +55,17 @@
             padding: 2.5rem;
             margin-bottom: 2rem;
         }
+        .admin-btn {
+            background-color: #2c3e50;
+            border-color: #4b6584;
+            color: #f1f2f6;
+            transition: all 0.2s;
+        }
+        .admin-btn:hover {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+            color: #ffffff;
+        }
     </style>
 </head>
 <body>
@@ -99,26 +110,56 @@
                                 <?php endforeach; ?>
                             </ul>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link <?= (isset($_GET['action']) && $_GET['action'] === 'registerForm') ? 'active fw-bold' : '' ?>" href="index.php?action=registerForm">
-                                <i class="bi bi-person-plus me-1"></i> Регистрация
-                            </a>
-                        </li>
                     </ul>
-                    <div class="d-flex align-items-center">
+
+                    <!-- Правый блок: Авторизация пользователей и отдельная кнопка Админки -->
+                    <div class="d-flex align-items-center flex-wrap gap-2">
                         <?php if (isset($_SESSION['userId'])): ?>
-                            <a href="admin/index.php" class="btn btn-sm btn-primary rounded-pill px-3 me-2">
-                                <i class="bi bi-shield-lock me-1"></i> Админка (<?= htmlspecialchars($_SESSION['name'] ?? 'User') ?>)
+                            <!-- Авторизованный пользователь -->
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-light rounded-pill px-3 dropdown-toggle d-flex align-items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-person-circle me-1 fs-6"></i>
+                                    <span><?= htmlspecialchars($_SESSION['name'] ?? 'Пользователь') ?></span>
+                                    <span class="badge <?= ($_SESSION['status'] ?? '') === 'admin' ? 'bg-danger' : 'bg-primary' ?> ms-2 small"><?= htmlspecialchars($_SESSION['status'] ?? 'user') ?></span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end shadow">
+                                    <li><h6 class="dropdown-header"><?= htmlspecialchars($_SESSION['email'] ?? '') ?></h6></li>
+                                    <?php if (($_SESSION['status'] ?? '') === 'admin'): ?>
+                                        <li><a class="dropdown-item text-primary" href="admin/index.php"><i class="bi bi-speedometer2 me-2"></i>Панель администратора</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                    <?php endif; ?>
+                                    <li><a class="dropdown-item text-danger" href="index.php?action=logout"><i class="bi bi-box-arrow-right me-2"></i>Выход</a></li>
+                                </ul>
+                            </div>
+
+                            <!-- Отдельная кнопка быстрого перехода в админку для админа -->
+                            <?php if (($_SESSION['status'] ?? '') === 'admin'): ?>
+                                <a href="admin/index.php" class="btn btn-sm btn-primary rounded-pill px-3 shadow-sm" title="Перейти в панель администратора">
+                                    <i class="bi bi-shield-lock-fill me-1"></i> Панель Admin
+                                </a>
+                            <?php endif; ?>
+
+                            <a href="index.php?action=logout" class="btn btn-sm btn-outline-danger rounded-pill px-3" title="Выйти из аккаунта">
+                                <i class="bi bi-box-arrow-right me-1"></i> Выход
                             </a>
-                            <a href="admin/index.php?action=logout" class="btn btn-sm btn-outline-light rounded-pill px-3">
-                                <i class="bi bi-box-arrow-right"></i> Выход
-                            </a>
+
                         <?php else: ?>
-                            <a href="index.php?action=registerForm" class="btn btn-sm btn-outline-light rounded-pill px-3 me-2">
+                            <!-- Неавторизованный посетитель -->
+                            <!-- 1. Основной вход для обычных пользователей -->
+                            <a href="index.php?action=login" class="btn btn-sm btn-primary rounded-pill px-3 shadow-sm">
+                                <i class="bi bi-box-arrow-in-right me-1"></i> Вход
+                            </a>
+
+                            <!-- 2. Регистрация нового пользователя -->
+                            <a href="index.php?action=registerForm" class="btn btn-sm btn-outline-light rounded-pill px-3">
                                 <i class="bi bi-person-plus me-1"></i> Регистрация
                             </a>
-                            <a href="admin/index.php" class="btn btn-sm btn-outline-primary rounded-pill px-3 text-white border-primary">
-                                <i class="bi bi-shield-lock me-1"></i> Вход
+
+                            <div class="vr bg-secondary mx-1 d-none d-lg-block" style="height: 24px;"></div>
+
+                            <!-- 3. Отдельная кнопка для входа в панель администратора -->
+                            <a href="admin/index.php" class="btn btn-sm admin-btn rounded-pill px-3" title="Вход для администратора">
+                                <i class="bi bi-shield-lock-fill me-1 text-warning"></i> Панель Admin
                             </a>
                         <?php endif; ?>
                     </div>
@@ -130,6 +171,21 @@
     <!-- ================= MAIN: Раздел содержания ================= -->
     <main class="main-container py-4">
         <div class="container">
+            <!-- Уведомления об успешном входе / выходе -->
+            <?php if (isset($_GET['msg']) && $_GET['msg'] === 'login_success'): ?>
+                <div class="alert alert-success alert-dismissible fade show d-flex align-items-center shadow-sm mb-4" role="alert">
+                    <i class="bi bi-check-circle-fill fs-5 me-2"></i>
+                    <div>Добро пожаловать, <strong><?= htmlspecialchars($_SESSION['name'] ?? '') ?></strong>! Вы успешно авторизовались на сайте.</div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php elseif (isset($_GET['msg']) && $_GET['msg'] === 'logout_success'): ?>
+                <div class="alert alert-info alert-dismissible fade show d-flex align-items-center shadow-sm mb-4" role="alert">
+                    <i class="bi bi-info-circle-fill fs-5 me-2"></i>
+                    <div>Вы успешно вышли из системы.</div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php endif; ?>
+
             <div class="row">
                 <!-- Основная колонка контента -->
                 <div class="col-lg-8 col-md-7">
@@ -166,8 +222,9 @@
                 <div class="col-md-6 text-md-end">
                     <a href="index.php" class="text-secondary text-decoration-none me-3 small">Главная</a>
                     <a href="index.php?action=allnews" class="text-secondary text-decoration-none me-3 small">Все новости</a>
+                    <a href="index.php?action=login" class="text-secondary text-decoration-none me-3 small">Вход</a>
                     <a href="index.php?action=registerForm" class="text-secondary text-decoration-none me-3 small">Регистрация</a>
-                    <a href="admin/index.php" class="text-secondary text-decoration-none small">Панель управления</a>
+                    <a href="admin/index.php" class="text-secondary text-decoration-none small"><i class="bi bi-shield-lock-fill text-warning me-1"></i>Панель Admin</a>
                 </div>
             </div>
         </div>

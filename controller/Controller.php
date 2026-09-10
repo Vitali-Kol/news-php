@@ -72,6 +72,67 @@ class Controller {
         exit();
     }
 
+    // Форма входа для обычных пользователей
+    public static function loginForm($error = null) {
+        if (isset($_SESSION['userId'])) {
+            header('Location: index.php');
+            exit();
+        }
+
+        $pageTitle = 'Вход на сайт';
+
+        ob_start();
+        include 'view/formLogin.php';
+        $content = ob_get_clean();
+        include 'view/layout.php';
+    }
+
+    // Обработка авторизации пользователя
+    public static function loginUser() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $email = trim($_POST['email'] ?? '');
+            $password = trim($_POST['password'] ?? '');
+
+            if (empty($email) || empty($password)) {
+                self::loginForm('Заполните все обязательные поля!');
+                return;
+            }
+
+            $db = new db();
+            $query = "SELECT * FROM users WHERE email = :email LIMIT 1";
+            $user = $db->getOne($query, ['email' => $email]);
+
+            if ($user && (password_verify($password, $user['password']) || $password === $user['pass'])) {
+                $_SESSION['userId'] = (int)$user['id'];
+                $_SESSION['sessionId'] = session_id();
+                $_SESSION['name'] = $user['username'];
+                $_SESSION['email'] = $user['email'];
+                $_SESSION['status'] = $user['status'];
+
+                header('Location: index.php?msg=login_success');
+                exit();
+            } else {
+                self::loginForm('Неверный E-mail или пароль!');
+                return;
+            }
+        }
+
+        self::loginForm();
+    }
+
+    // Выход пользователя из аккаунта
+    public static function logoutUser() {
+        unset($_SESSION['userId']);
+        unset($_SESSION['sessionId']);
+        unset($_SESSION['name']);
+        unset($_SESSION['email']);
+        unset($_SESSION['status']);
+        session_destroy();
+
+        header('Location: index.php?msg=logout_success');
+        exit();
+    }
+
     // Форма регистрации нового пользователя
     public static function registerForm() {
         $pageTitle = 'Регистрация нового пользователя';

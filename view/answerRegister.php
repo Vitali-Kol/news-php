@@ -3,7 +3,7 @@
 $isSuccess = isset($result['result']) && $result['result'] === true;
 $message = isset($result['message']) ? htmlspecialchars($result['message']) : '';
 ?>
-<div class="card shadow-sm border-0 text-center py-5 px-4 my-4 mx-auto" style="max-width: 600px;">
+<div class="card shadow-sm border-0 text-center py-5 px-4 my-4 mx-auto" style="max-width: 600px; border-radius: 16px;">
     <div class="card-body">
         <?php if ($isSuccess): ?>
             <div class="display-3 text-success mb-3">
@@ -14,8 +14,8 @@ $message = isset($result['message']) ? htmlspecialchars($result['message']) : ''
                 <?= $message ?>
             </p>
             <div class="d-flex justify-content-center gap-2">
-                <a href="admin/index.php" class="btn btn-primary rounded-pill px-4 py-2">
-                    <i class="bi bi-box-arrow-in-right me-1"></i> Войти в систему
+                <a href="index.php?action=login" class="btn btn-primary rounded-pill px-4 py-2 shadow-sm">
+                    <i class="bi bi-box-arrow-in-right me-1"></i> Войти на сайт
                 </a>
                 <a href="index.php" class="btn btn-outline-secondary rounded-pill px-4 py-2">
                     <i class="bi bi-house me-1"></i> На главную

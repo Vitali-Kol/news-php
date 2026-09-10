@@ -24,6 +24,15 @@ switch ($action) {
         $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
         Controller::InsertComment($id);
         break;
+    case 'login':
+        Controller::loginForm();
+        break;
+    case 'loginAction':
+        Controller::loginUser();
+        break;
+    case 'logout':
+        Controller::logoutUser();
+        break;
     case 'registerForm':
         Controller::registerForm();
         break;
