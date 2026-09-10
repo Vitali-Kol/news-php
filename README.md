@@ -2,6 +2,19 @@
 
 A web application for a news portal featuring a comprehensive administration panel and user registration, developed in pure PHP using the **MVC** (Model-View-Controller) architectural pattern and MySQL database.
 
+---
+
+## Table of Contents
+1. [Key Features](#key-features)
+2. [User Guide / How to Use the Website](#user-guide--how-to-use-the-website)
+   - [Public Website (Regular Users & Visitors)](#1-public-website-regular-users--visitors)
+   - [Administration Panel (Administrators)](#2-administration-panel-administrators)
+3. [Test Accounts](#test-accounts)
+4. [Project Structure](#project-structure)
+5. [Installation & Setup](#installation--setup)
+
+---
+
 ## Key Features
 - **MVC Architecture**: Strict separation of business logic, controllers, and views.
 - **Home Page**: Displays the 3 latest published news articles.
@@ -25,6 +38,85 @@ A web application for a news portal featuring a comprehensive administration pan
 - **Image Storage**: Support for storing image files in MySQL as BLOB data with Base64 Data URI rendering.
 - **Error Handling**: Custom 404 error pages for both the public website and the admin panel.
 - **Responsive Design**: Modern, responsive UI built with Bootstrap 5.
+
+---
+
+## User Guide / How to Use the Website
+
+### 1. Public Website (Regular Users & Visitors)
+
+#### 🏠 Browsing News
+- **Home Page (`index.php`)**: When you open the website, the 3 newest published articles are displayed on the main page.
+- **All News (`index.php?action=allnews`)**: Click on **"Все новости" (All News)** in the top navigation bar to view the complete list of all publications with publication count.
+- **Category Filter (`index.php?action=category&id=X`)**: Click on **"Категории" (Categories)** in the top menu or select a category from the right sidebar to view articles belonging to a specific topic.
+
+#### 📖 Reading Articles & Leaving Comments
+- Click on any article title or the **"Читать далее" (Read more)** button to open the full article page (`index.php?action=read&id=X`).
+- On the article page, you will see the complete text, category badge, author name, publication date, and full-size image.
+- Scroll down to the **Comments section**:
+  - View all previously posted comments with author and timestamps.
+  - Submit your own comment using the **"Добавить комментарий" (Add comment)** form.
+
+#### 👤 User Registration & Login
+- **Register a New Account (`index.php?action=registerForm`)**:
+  1. Click **"Регистрация" (Register)** in the top navigation bar.
+  2. Fill in your **Name**, **E-mail**, and **Password** (min. 6 characters), then confirm the password.
+  3. Click **"Зарегистрироваться" (Register)**. Upon success, an account with the `user` role will be created.
+- **Log In (`index.php?action=login`)**:
+  1. Click **"Вход" (Login)** in the top header.
+  2. Enter your registered email and password.
+  3. After successful login, your name and `user` badge will appear in the top right corner.
+- **Log Out (`index.php?action=logout`)**:
+  - Click the **"Выход" (Logout)** button in the header at any time to end your session.
+
+---
+
+### 2. Administration Panel (Administrators)
+
+#### 🛡️ Accessing the Admin Panel
+- In the top header of the public website, click the dark **"🛡️ Панель Admin"** button (or navigate directly to `http://localhost/projekt/admin/`).
+- If not logged in as an administrator, the **Admin Login Form** will be shown.
+- Enter admin credentials: `admin@newsportal.ee` / `123456`.
+
+#### 📊 Dashboard (`admin/index.php?action=start`)
+- View real-time system metrics: Total News, Categories, Comments, and Registered Users.
+- Review the recent publications table and use quick-action buttons.
+
+#### 📰 News Management (`admin/index.php?action=newsAdmin`)
+- **View All News**: Click **"Список новостей" (News List)** in the sidebar to see the table of all articles with preview thumbnails, categories, and authors.
+- **Detailed Preview (`action=newsDetail&id=X`)**: Click the 👁 icon to view full article content, image, and metadata inside the admin panel.
+- **Add New Article (`action=newsAdd`)**:
+  1. Click **"Добавить новость" (Add News)**.
+  2. Enter the **Title**, select a **Category**, upload an **Image** (JPEG/PNG), and enter the **Text**.
+  3. Click **"Опубликовать новость" (Publish)**.
+- **Edit Article (`action=newsEdit&id=X`)**:
+  1. Click the ✏️ icon on any article.
+  2. Modify title, category, or text. Optionally select a new image file (or leave empty to keep the current one).
+  3. Click **"Сохранить изменения" (Save Changes)**.
+- **Delete Article (`action=newsDeleteForm&id=X`)**:
+  1. Click the 🗑 icon on any article.
+  2. The confirmation page will display the article details, thumbnail, and the number of attached comments that will be removed.
+  3. Click **"Да, удалить новость" (Confirm Delete)**.
+
+#### 📁 Category Management (`admin/index.php?action=categoryAdmin`)
+- **View Categories**: Click **"Категории" (Categories)** in the sidebar to view all categories and see how many articles belong to each category.
+- **Add Category (`action=categoryAdd`)**: Click **"Добавить категорию" (Add Category)**, enter a unique name, and save.
+- **Edit Category (`action=categoryEdit&id=X`)**: Click ✏️ next to a category to rename it.
+- **Delete Category (`action=categoryDelete&id=X`)**: Click 🗑 next to a category. *Note: The system protects data integrity and prevents deleting categories that currently contain articles.*
+
+#### ⚙️ Profile & Password Management (`admin/index.php?action=profile`)
+- Click **"Управление аккаунтом" (Account Settings)** in the sidebar.
+- Update your display name and change your administrator password securely.
+
+---
+
+## Test Accounts
+| Role | Email | Password | Access Level |
+|------|-------|----------|--------------|
+| **Administrator** | `admin@newsportal.ee` | `123456` | Full access: Public website + Admin Panel (CRUD News, Categories, Users) |
+| **Regular User** | `user@newsportal.ee` | `111111` | Public website: Reading articles, browsing categories, adding comments |
+
+---
 
 ## Project Structure
 ```
@@ -84,9 +176,7 @@ projekt/
 └── newsportal.sql                     # MySQL database dump
 ```
 
-## Test Accounts
-- **Administrator:** `admin@newsportal.ee` / `123456` (full access to admin panel and management)
-- **Regular User:** `user@newsportal.ee` / `111111` (public website access and comments)
+---
 
 ## Installation & Setup
 
