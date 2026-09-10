@@ -1,9 +1,11 @@
 {
   "name": "news-php-tests",
   "version": "1.0.0",
-  "description": "Automated acceptance tests for NewsPortal PHP MVC",
+  "description": "End-to-End (E2E) and Acceptance tests for NewsPortal PHP MVC",
   "scripts": {
-    "test": "node tests/test_specification.js"
+    "test": "node tests/e2e.test.js",
+    "test:e2e": "node tests/e2e.test.js",
+    "test:spec": "node tests/test_specification.js"
   },
   "author": "Vitali-Kol",
   "license": "MIT"

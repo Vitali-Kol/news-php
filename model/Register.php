@@ -5,10 +5,10 @@ class Register {
         $result = ['result' => false, 'message' => ''];
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $username = trim($_POST['username'] ?? '');
+            $username = trim($_POST['username'] ?? ($_POST['name'] ?? ''));
             $email = trim($_POST['email'] ?? '');
             $password = $_POST['password'] ?? '';
-            $passwordConfirm = $_POST['passwordConfirm'] ?? ($_POST['password2'] ?? '');
+            $passwordConfirm = $_POST['passwordConfirm'] ?? ($_POST['confirm'] ?? ($_POST['password2'] ?? ''));
 
             // 1. Проверка заполнения полей
             if (empty($username) || empty($email) || empty($password) || empty($passwordConfirm)) {
