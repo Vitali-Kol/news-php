@@ -11,8 +11,9 @@ A web application for a news portal featuring a comprehensive administration pan
    - [Public Website (Regular Users & Visitors)](#1-public-website-regular-users--visitors)
    - [Administration Panel (Administrators)](#2-administration-panel-administrators)
 4. [Test Accounts](#test-accounts)
-5. [Project Structure](#project-structure)
-6. [Installation & Setup](#installation--setup)
+5. [Automated Tests (JS / Node.js)](#automated-tests-js--nodejs)
+6. [Project Structure](#project-structure)
+7. [Installation & Setup](#installation--setup)
 
 ---
 
@@ -119,6 +120,20 @@ A web application for a news portal featuring a comprehensive administration pan
 
 ---
 
+## Automated Tests (JS / Node.js)
+
+The project includes an automated test suite written in JavaScript (`tests/test_specification.js`) that verifies key scenarios from `SPECIFICATION.md`:
+
+```bash
+# Run tests directly with Node.js
+node tests/test_specification.js
+
+# Or via npm
+npm test
+```
+
+---
+
 ## Project Structure
 ```
 projekt/
@@ -160,6 +175,8 @@ projekt/
 │   └── Register.php                   # User registration model
 ├── route/
 │   └── routing.php                    # Public router (start, allnews, category, read, login, register)
+├── tests/
+│   └── test_specification.js          # Automated acceptance tests (JS / Node.js)
 ├── view/
 │   ├── layout.php                     # Public base layout (navigation, auth buttons, footer)
 │   ├── start.php                      # Home page (top 3 latest articles)
@@ -174,6 +191,7 @@ projekt/
 │   ├── comments.php                   # ViewComments helper class
 │   └── error404.php                   # 404 error page
 ├── index.php                          # Public website entry point
+├── package.json                       # Test runner configuration
 └── newsportal.sql                     # MySQL database dump
 ```
 
@@ -187,7 +205,7 @@ projekt/
    ```
 2. Import the `newsportal.sql` database dump into MySQL:
    - Via phpMyAdmin: create a database named `newsportal` and import `newsportal.sql`.
-   - Or via command line:
+   - Или через командную строку:
      ```bash
      mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS newsportal;"
      mysql -u root -p newsportal < newsportal.sql
