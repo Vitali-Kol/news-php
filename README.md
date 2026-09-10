@@ -1,95 +1,109 @@
-# Сайт Новостей (NewsPortal) — PHP MVC
+# News Portal (NewsPortal) — PHP MVC
 
-Веб-приложение новостного портала с полноценной панелью администратора и регистрацией пользователей, разработанное на чистом PHP с использованием архитектуры **MVC** (Model-View-Controller) и базы данных MySQL.
+A web application for a news portal featuring a comprehensive administration panel and user registration, developed in pure PHP using the **MVC** (Model-View-Controller) architectural pattern and MySQL database.
 
-## Особенности проекта
-- **Архитектура MVC**: четкое разделение бизнес-логики, контроллеров и представлений.
-- **Стартовая страница**: вывод 3-х последних опубликованных новостей.
-- **Все новости**: каталог всех публикаций со счетчиком.
-- **Категории**: фильтрация и просмотр новостей по рубрикам.
-- **Детальный просмотр**: полная страница статьи с метаданными, автором и полноразмерным изображением.
-- **Комментарии к новостям**: добавление комментариев через форму, вывод списка комментариев, отображение счетчика комментариев в карточках и на странице новости.
-- **Регистрация пользователей**:
-  - Регистрация с проверкой уникальности email, совпадения и надежности паролей.
-  - Автоматическое назначение роли `user` для новых пользователей (роль `admin` остается только у администратора).
-  - Безопасное хеширование паролей (`password_hash`).
-- **Админ-панель (`admin/`)**:
-  - Авторизация по email и паролю через глобальные сессии (`$_SESSION['userId']`, `$_SESSION['status']`).
-  - Разграничение прав пользователей (`admin` / `user`).
-  - Дашборд со сводной статистикой (количество новостей, категорий, комментариев, пользователей).
-  - Управление новостями (CRUD: добавление с загрузкой файлов, редактирование, удаление).
-  - Управление аккаунтом (смена пароля и имени пользователя).
-- **Хранение изображений**: поддержка хранения картинок в БД (BLOB) с отображением через Base64 Data URI.
-- **Обработка ошибок**: кастомные страницы 404 для сайта и админки.
-- **Адаптивный дизайн**: современный интерфейс на базе Bootstrap 5.
+## Key Features
+- **MVC Architecture**: Strict separation of business logic, controllers, and views.
+- **Home Page**: Displays the 3 latest published news articles.
+- **All News**: Catalog of all articles with a total publication counter.
+- **Categories**: Filter and browse news by topic/category.
+- **Detailed View**: Full article page with metadata, author details, full-size image, and comments.
+- **Article Comments**: Add comments via form, view list of comments, and display comment counters on cards and article pages.
+- **User Registration**:
+  - Registration with validation for email uniqueness, password confirmation, and length requirements.
+  - Automatic assignment of the `user` role to new accounts (only the administrator holds the `admin` role).
+  - Secure password hashing (`password_hash`).
+- **User & Admin Authentication**:
+  - Main user login on the public site and separate direct entrance to the Admin Panel.
+  - Session-based authentication (`$_SESSION['userId']`, `$_SESSION['status']`).
+  - Role-based access control (`admin` / `user`).
+- **Admin Panel (`admin/`)**:
+  - Interactive dashboard with summary metrics (total news, categories, comments, users).
+  - News management (CRUD: create with image upload, read, update, delete with confirmation).
+  - Category management (CRUD: create, edit, delete with protection against deleting non-empty categories).
+  - Account management (update profile name and change password).
+- **Image Storage**: Support for storing image files in MySQL as BLOB data with Base64 Data URI rendering.
+- **Error Handling**: Custom 404 error pages for both the public website and the admin panel.
+- **Responsive Design**: Modern, responsive UI built with Bootstrap 5.
 
-## Структура проекта
+## Project Structure
 ```
 projekt/
-├── admin/                     # Панель управления администратора
+├── admin/                             # Administrator Control Panel
 │   ├── controllerAdmin/
-│   │   └── controllerAdmin.php # Контроллер админки (логин, дашборд, CRUD новостей, профиль)
+│   │   ├── controllerAdmin.php         # Admin controller (auth, dashboard, profile)
+│   │   ├── controllerAdminNews.php     # News management controller (CRUD, view)
+│   │   └── controllerAdminCategory.php # Category management controller (CRUD)
 │   ├── modelAdmin/
-│   │   └── modelAdmin.php      # Модель админки (userLogin, userLogout, CRUD, смена пароля)
+│   │   ├── modelAdmin.php              # Admin model (login, logout, metrics, password change)
+│   │   ├── modelAdminNews.php          # News admin model (CRUD queries)
+│   │   └── modelAdminCategory.php      # Category admin model (CRUD queries)
 │   ├── routeAdmin/
-│   │   └── routingAdmin.php    # Маршрутизатор админки
+│   │   └── routingAdmin.php            # Admin panel router (newsAdmin, categoryAdmin, etc.)
 │   ├── viewAdmin/
 │   │   ├── templates/
-│   │   │   └── layout.php      # Базовый шаблон админ-панели
-│   │   ├── formLogin.php       # Форма авторизации
-│   │   ├── startAdmin.php      # Главная страница админки (дашборд и статистика)
-│   │   ├── newsList.php        # Таблица списка всех новостей
-│   │   ├── newsAddForm.php     # Форма добавления новости
-│   │   ├── newsEditForm.php    # Форма редактирования новости
-│   │   ├── profileForm.php     # Форма смены имени и пароля
-│   │   └── error404.php        # 404 ошибка в админке
-│   └── index.php               # Точка входа в админ-панель
+│   │   │   └── layout.php              # Admin panel base layout (Bootstrap 5)
+│   │   ├── formLogin.php               # Admin login form
+│   │   ├── startAdmin.php              # Dashboard with statistics and recent posts
+│   │   ├── newsList.php                # News management table
+│   │   ├── newsDetail.php              # Detailed single news view in admin
+│   │   ├── newsAddForm.php             # Add new article form (with file upload)
+│   │   ├── newsEditForm.php            # Edit article form
+│   │   ├── newsDeleteForm.php          # Delete confirmation page
+│   │   ├── categoryList.php            # Categories management table
+│   │   ├── categoryAddForm.php         # Add category form
+│   │   ├── categoryEditForm.php        # Edit category form
+│   │   ├── profileForm.php             # Account settings & password change form
+│   │   └── error404.php                # 404 error page for admin
+│   └── index.php                       # Admin panel entry point
 ├── controller/
-│   └── Controller.php         # Контроллер публичной части
+│   └── Controller.php                 # Public website controller (articles, comments, login, registration)
 ├── inc/
-│   └── db.php                 # Класс подключения к БД и выполнения запросов (PDO)
+│   └── db.php                         # Database connection & query handler (PDO)
 ├── model/
-│   ├── News.php               # Модель новостей
-│   ├── Category.php           # Модель категорий
-│   ├── Comments.php           # Модель комментариев
-│   └── Register.php           # Модель регистрации пользователей
+│   ├── News.php                       # Public news model
+│   ├── Category.php                   # Public category model
+│   ├── Comments.php                   # Comments model
+│   └── Register.php                   # User registration model
 ├── route/
-│   └── routing.php            # Маршрутизатор публичной части (включая registerForm, registerAnswer)
+│   └── routing.php                    # Public router (start, allnews, category, read, login, register)
 ├── view/
-│   ├── layout.php             # Главный базовый шаблон сайта (навигация, меню, авторизация)
-│   ├── start.php              # Стартовая страница (3 последние новости)
-│   ├── allnews.php            # Список всех новостей
-│   ├── catnews.php            # Новости по выбранной категории
-│   ├── readnews.php           # Детальный просмотр одной новости (статья + комментарии)
-│   ├── category.php           # Меню / виджет категорий
-│   ├── formRegister.php       # Форма регистрации пользователя
-│   ├── answerRegister.php     # Страница результата регистрации (успех / ошибка)
-│   ├── news.php               # Вспомогательный класс ViewNews
-│   ├── comments.php           # Вспомогательный класс ViewComments
-│   └── error404.php           # Страница ошибки 404
-├── index.php                  # Точка входа в публичную часть
-└── newsportal.sql             # Дамп базы данных MySQL
+│   ├── layout.php                     # Public base layout (navigation, auth buttons, footer)
+│   ├── start.php                      # Home page (top 3 latest articles)
+│   ├── allnews.php                    # All articles catalog
+│   ├── catnews.php                    # Articles by selected category
+│   ├── readnews.php                   # Single article reading page (article + comments)
+│   ├── category.php                   # Categories sidebar widget / menu
+│   ├── formLogin.php                  # Public user login form
+│   ├── formRegister.php               # User registration form
+│   ├── answerRegister.php             # Registration result view (success / error)
+│   ├── news.php                       # ViewNews helper class (BLOB image rendering)
+│   ├── comments.php                   # ViewComments helper class
+│   └── error404.php                   # 404 error page
+├── index.php                          # Public website entry point
+└── newsportal.sql                     # MySQL database dump
 ```
 
-## Тестовые учетные записи
-- **Администратор:** `admin@newsportal.ee` / `123456` (доступ к админ-панели и полному управлению)
-- **Пользователь:** `user@newsportal.ee` / `111111`
+## Test Accounts
+- **Administrator:** `admin@newsportal.ee` / `123456` (full access to admin panel and management)
+- **Regular User:** `user@newsportal.ee` / `111111` (public website access and comments)
 
-## Установка и запуск
+## Installation & Setup
 
-1. Склонируйте репозиторий в папку веб-сервера (например, `xampp/htdocs/projekt`):
+1. Clone the repository into your web server directory (e.g., `xampp/htdocs/projekt`):
    ```bash
    git clone https://github.com/Vitali-Kol/news-php.git
    ```
-2. Импортируйте дамп базы данных `newsportal.sql` в MySQL:
-   - Через phpMyAdmin: создать базу данных `newsportal` и импортировать файл `newsportal.sql`.
-   - Или через командную строку:
+2. Import the `newsportal.sql` database dump into MySQL:
+   - Via phpMyAdmin: create a database named `newsportal` and import `newsportal.sql`.
+   - Or via command line:
      ```bash
      mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS newsportal;"
      mysql -u root -p newsportal < newsportal.sql
      ```
-3. При необходимости отредактируйте параметры подключения к БД в `inc/db.php`.
-4. Откройте сайт в браузере:
-   - Публичная часть: `http://localhost/projekt/`
-   - Регистрация: `http://localhost/projekt/index.php?action=registerForm`
-   - Панель администратора: `http://localhost/projekt/admin/`
+3. If necessary, adjust your database connection settings in `inc/db.php`.
+4. Open the website in your browser:
+   - Public Website: `http://localhost/projekt/`
+   - User Login: `http://localhost/projekt/index.php?action=login`
+   - Registration: `http://localhost/projekt/index.php?action=registerForm`
+   - Admin Panel: `http://localhost/projekt/admin/`
