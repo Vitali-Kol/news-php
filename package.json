@@ -1,12 +1,16 @@
 {
   "name": "news-php-tests",
   "version": "1.0.0",
-  "description": "End-to-End (E2E) and Acceptance tests for NewsPortal PHP MVC",
+  "description": "End-to-End (E2E) and Visual UI tests for NewsPortal PHP MVC",
   "scripts": {
     "test": "node tests/e2e.test.js",
+    "test:ui": "node tests/visual_e2e.js",
     "test:e2e": "node tests/e2e.test.js",
     "test:spec": "node tests/test_specification.js"
   },
   "author": "Vitali-Kol",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "puppeteer": "^24.4.0"
+  }
 }
