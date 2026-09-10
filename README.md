@@ -122,13 +122,20 @@ A web application for a news portal featuring a comprehensive administration pan
 
 ## Automated Tests (JS / Node.js)
 
-The project includes an automated test suite written in JavaScript (`tests/test_specification.js`) that verifies key scenarios from `SPECIFICATION.md`:
+The project includes a comprehensive **Playwright Visual E2E Test Suite** (`tests/newsportal.spec.js`) that verifies all user, visitor, and administrator journeys live in a real browser:
 
 ```bash
-# Run tests directly with Node.js
-node tests/test_specification.js
+# Run visual E2E tests in visible browser window (Headed mode)
+npm run test:headed
+# or
+npx playwright test --headed
 
-# Or via npm
+# Open interactive Playwright UI dashboard (Trace Viewer, step-by-step debugger)
+npm run test:ui
+# or
+npx playwright test --ui
+
+# Run full test suite in background (Headless)
 npm test
 ```
 
