@@ -4,6 +4,10 @@
   "description": "Playwright Visual End-to-End (E2E) tests for NewsPortal PHP MVC",
   "scripts": {
     "test": "playwright test",
+    "test2": "node tests/run_all_tests.js",
+    "test:unit": "node tests/unit/run_unit.js",
+    "test:integration": "node tests/integration/run_integration.js",
+    "test:all": "node tests/run_all_tests.js && playwright test",
     "test:ui": "playwright test --ui",
     "test:headed": "playwright test --headed",
     "test:report": "playwright show-report"

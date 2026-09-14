@@ -122,21 +122,33 @@ A web application for a news portal featuring a comprehensive administration pan
 
 ## Automated Tests (JS / Node.js)
 
-The project includes a comprehensive **Playwright Visual E2E Test Suite** (`tests/newsportal.spec.js`) that verifies all user, visitor, and administrator journeys live in a real browser:
+The project includes a complete testing pyramid implemented in JavaScript / Node.js:
+- **Unit Tests** (`tests/unit/`): Data validation, email RFC verification, password strength/mismatch rules, XSS entity escaping, Bcrypt hashing format verification, RBAC role permissions, SQL injection pattern heuristics, and data formatting.
+- **Integration Tests** (`tests/integration/`): End-to-end API & HTTP route testing, session cookies, user registration, authentication flow, admin dashboard metrics, news/category CRUD operations, and cascade deletion guards.
+- **End-to-End (E2E) Visual Tests** (`tests/newsportal.spec.js`): Playwright browser automation simulating complete visitor, user, and administrator journeys.
+
+### 🚀 Running Tests via npm:
 
 ```bash
-# Run visual E2E tests in visible browser window (Headed mode)
+# 1. Run Unit & Integration Tests (fast suite)
+npm run test2
+# or
+npm test2
+
+# 2. Run Unit Tests only (Validation, Security, Helpers)
+npm run test:unit
+
+# 3. Run Integration Tests only (HTTP Routes, Sessions, Admin CRUD)
+npm run test:integration
+
+# 4. Run Visual E2E Tests with browser UI (Playwright Headed)
 npm run test:headed
-# or
-npx playwright test --headed
 
-# Open interactive Playwright UI dashboard (Trace Viewer, step-by-step debugger)
+# 5. Run Interactive Playwright UI Test Runner (Debugger & Trace Viewer)
 npm run test:ui
-# or
-npx playwright test --ui
 
-# Run full test suite in background (Headless)
-npm test
+# 6. Run all tests (Unit + Integration + Playwright E2E)
+npm run test:all
 ```
 
 ---
@@ -183,7 +195,23 @@ projekt/
 ├── route/
 │   └── routing.php                    # Public router (start, allnews, category, read, login, register)
 ├── tests/
-│   └── test_specification.js          # Automated acceptance tests (JS / Node.js)
+│   ├── unit/                          # Unit Test Suite (validation, security, helpers)
+│   │   ├── validation.unit.test.js
+│   │   ├── security.unit.test.js
+│   │   ├── helpers.unit.test.js
+│   │   └── run_unit.js
+│   ├── integration/                   # Integration Test Suite (routes, auth, admin CRUD)
+│   │   ├── public_routes.integration.test.js
+│   │   ├── auth_session.integration.test.js
+│   │   ├── admin_panel.integration.test.js
+│   │   └── run_integration.js
+│   ├── utils/                         # Testing utilities & session HTTP client
+│   │   ├── http_client.js
+│   │   ├── validator.js
+│   │   ├── security.js
+│   │   └── helpers.js
+│   ├── newsportal.spec.js             # Visual Playwright E2E Test Suite
+│   └── run_all_tests.js               # Master test runner (npm run test2)
 ├── view/
 │   ├── layout.php                     # Public base layout (navigation, auth buttons, footer)
 │   ├── start.php                      # Home page (top 3 latest articles)

@@ -394,40 +394,40 @@ In accordance with ISO/IEC/IEEE 29148:2018 Section 9.5:
 
 | Requirement ID | Requirement Summary | Verification Method | Associated Test Case / Test Script | Compliance Status |
 | :--- | :--- | :---: | :--- | :---: |
-| **[SRS-REQ-PUB-001]** | Home page renders Top 3 news | **T / D** | `TC-01`, `playwright: Public Portal Navigation` | **PASSED** |
-| **[SRS-REQ-PUB-002]** | All news catalog displays all articles | **T / D** | `TC-01`, `playwright: Public Portal Navigation` | **PASSED** |
-| **[SRS-REQ-PUB-003]** | Filter news by category ID | **T / D** | `TC-01`, `playwright: Category Filter Test` | **PASSED** |
-| **[SRS-REQ-PUB-004]** | Full article detail view & comments | **T / D** | `TC-01`, `TC-02`, `playwright: Article View` | **PASSED** |
-| **[SRS-REQ-PUB-005]** | 404 error page for invalid IDs | **T / D** | `TC-01`, `playwright: 404 Resilience Test` | **PASSED** |
-| **[SRS-REQ-COM-001]** | Comment submission form | **T / D** | `TC-02`, `playwright: Comment Submission` | **PASSED** |
-| **[SRS-REQ-COM-002]** | Comment persistence in `comments` table | **T / I** | `TC-02`, `verify_comments.php` | **PASSED** |
-| **[SRS-REQ-COM-003]** | Comments counter badge rendering | **T / D** | `TC-02`, `playwright: Comments Counter` | **PASSED** |
-| **[SRS-REQ-COM-004]** | Comments reverse chronological order | **T / I** | `TC-02`, `verify_comments.php` | **PASSED** |
-| **[SRS-REQ-AUTH-001]**| Registration form fields | **T / D** | `TC-03`, `TC-04`, `playwright: User Registration`| **PASSED** |
-| **[SRS-REQ-AUTH-002]**| Unique email registration check | **T** | `TC-03`, `playwright: Duplicate Email Error` | **PASSED** |
-| **[SRS-REQ-AUTH-003]**| Password matching & min 6 chars validation| **T** | `TC-04`, `playwright: Password Validation` | **PASSED** |
-| **[SRS-REQ-AUTH-004]**| Secure password hashing (`PASSWORD_DEFAULT`)| **I / A** | `TC-03`, `verify_register.php` | **PASSED** |
-| **[SRS-REQ-AUTH-005]**| Public user login & session initialization | **T / D** | `TC-05`, `playwright: Public User Login` | **PASSED** |
-| **[SRS-REQ-AUTH-006]**| User logout and session destruction | **T / D** | `TC-05`, `playwright: User Logout` | **PASSED** |
-| **[SRS-REQ-ADM-001]** | Admin route protection & auth gateway | **T / D** | `TC-06`, `playwright: Admin Authentication` | **PASSED** |
-| **[SRS-REQ-ADM-002]** | Dashboard analytics cards (4 counters) | **T / D** | `TC-06`, `playwright: Dashboard Metrics` | **PASSED** |
-| **[SRS-REQ-ADM-003]** | Recent activity table (5 posts) | **T / D** | `TC-06`, `playwright: Admin Dashboard View` | **PASSED** |
-| **[SRS-REQ-NEWS-001]**| News management table with CRUD actions | **T / D** | `TC-07`, `playwright: News Admin List` | **PASSED** |
-| **[SRS-REQ-NEWS-002]**| Add news article with BLOB image upload | **T / I** | `TC-07`, `playwright: Add News Flow` | **PASSED** |
+| **[SRS-REQ-PUB-001]** | Home page renders Top 3 news | **T / D** | `TC-01`, `integration: public_routes`, `playwright: Public Portal Navigation` | **PASSED** |
+| **[SRS-REQ-PUB-002]** | All news catalog displays all articles | **T / D** | `TC-01`, `integration: public_routes`, `playwright: Public Portal Navigation` | **PASSED** |
+| **[SRS-REQ-PUB-003]** | Filter news by category ID | **T / D** | `TC-01`, `integration: public_routes`, `playwright: Category Filter Test` | **PASSED** |
+| **[SRS-REQ-PUB-004]** | Full article detail view & comments | **T / D** | `TC-01`, `TC-02`, `integration: public_routes`, `playwright: Article View` | **PASSED** |
+| **[SRS-REQ-PUB-005]** | 404 error page for invalid IDs | **T / D** | `TC-01`, `integration: public_routes`, `playwright: 404 Resilience Test` | **PASSED** |
+| **[SRS-REQ-COM-001]** | Comment submission form | **T / D** | `TC-02`, `integration: public_routes`, `playwright: Comment Submission` | **PASSED** |
+| **[SRS-REQ-COM-002]** | Comment persistence in `comments` table | **T / I** | `TC-02`, `integration: public_routes`, `verify_comments.php` | **PASSED** |
+| **[SRS-REQ-COM-003]** | Comments counter badge rendering | **T / D** | `TC-02`, `integration: public_routes`, `playwright: Comments Counter` | **PASSED** |
+| **[SRS-REQ-COM-004]** | Comments reverse chronological order | **T / I** | `TC-02`, `integration: public_routes`, `verify_comments.php` | **PASSED** |
+| **[SRS-REQ-AUTH-001]**| Registration form fields | **T / D** | `TC-03`, `TC-04`, `unit: validation`, `integration: auth_session`| **PASSED** |
+| **[SRS-REQ-AUTH-002]**| Unique email registration check | **T** | `TC-03`, `unit: validation`, `integration: auth_session` | **PASSED** |
+| **[SRS-REQ-AUTH-003]**| Password matching & min 6 chars validation| **T** | `TC-04`, `unit: validation`, `integration: auth_session` | **PASSED** |
+| **[SRS-REQ-AUTH-004]**| Secure password hashing (`PASSWORD_DEFAULT`)| **I / A** | `TC-03`, `unit: security`, `verify_register.php` | **PASSED** |
+| **[SRS-REQ-AUTH-005]**| Public user login & session initialization | **T / D** | `TC-05`, `integration: auth_session`, `playwright: Public User Login` | **PASSED** |
+| **[SRS-REQ-AUTH-006]**| User logout and session destruction | **T / D** | `TC-05`, `integration: auth_session`, `playwright: User Logout` | **PASSED** |
+| **[SRS-REQ-ADM-001]** | Admin route protection & auth gateway | **T / D** | `TC-06`, `integration: admin_panel`, `playwright: Admin Authentication` | **PASSED** |
+| **[SRS-REQ-ADM-002]** | Dashboard analytics cards (4 counters) | **T / D** | `TC-06`, `integration: admin_panel`, `playwright: Dashboard Metrics` | **PASSED** |
+| **[SRS-REQ-ADM-003]** | Recent activity table (5 posts) | **T / D** | `TC-06`, `integration: admin_panel`, `playwright: Admin Dashboard View` | **PASSED** |
+| **[SRS-REQ-NEWS-001]**| News management table with CRUD actions | **T / D** | `TC-07`, `integration: admin_panel`, `playwright: News Admin List` | **PASSED** |
+| **[SRS-REQ-NEWS-002]**| Add news article with BLOB image upload | **T / I** | `TC-07`, `unit: helpers`, `playwright: Add News Flow` | **PASSED** |
 | **[SRS-REQ-NEWS-003]**| Admin single news detail view | **T / D** | `TC-07`, `playwright: News Detail View` | **PASSED** |
 | **[SRS-REQ-NEWS-004]**| Edit news article and save updates | **T / D** | `TC-08`, `playwright: Edit News Flow` | **PASSED** |
 | **[SRS-REQ-NEWS-005]**| Two-step news deletion with confirmation | **T / D** | `TC-09`, `playwright: News Deletion Flow` | **PASSED** |
 | **[SRS-REQ-NEWS-006]**| Cascading deletion of comments on article | **T / I** | `TC-09`, `verify_cascade.php` | **PASSED** |
-| **[SRS-REQ-CAT-001]** | Category list with article count metrics | **T / D** | `TC-10`, `playwright: Category List` | **PASSED** |
-| **[SRS-REQ-CAT-002]** | Add new category | **T / D** | `TC-10`, `playwright: Add Category` | **PASSED** |
-| **[SRS-REQ-CAT-003]** | Rename existing category | **T / D** | `TC-10`, `playwright: Edit Category` | **PASSED** |
-| **[SRS-REQ-CAT-004]** | Non-empty category deletion protection | **T / D** | `TC-10`, `playwright: Category Guard Test` | **PASSED** |
-| **[SRS-REQ-PROF-001]**| Update administrator display name | **T / D** | `playwright: Admin Profile Update` | **PASSED** |
-| **[SRS-REQ-PROF-002]**| Update administrator password | **T / I** | `playwright: Admin Password Change` | **PASSED** |
-| **[SRS-REQ-NFR-SEC-001]**| PDO prepared statements (SQLi defense) | **I / A** | Code Inspection & Static Audit | **PASSED** |
-| **[SRS-REQ-NFR-SEC-002]**| Output sanitization via `htmlspecialchars` | **I / A** | Code Inspection & XSS Audit | **PASSED** |
-| **[SRS-REQ-NFR-SEC-003]**| Password hashing with `PASSWORD_DEFAULT` | **I / A** | Code Inspection & DB Verification | **PASSED** |
-| **[SRS-REQ-NFR-SEC-004]**| Admin session validation on all admin routes| **T / I** | `playwright: Admin Route Guards` | **PASSED** |
+| **[SRS-REQ-CAT-001]** | Category list with article count metrics | **T / D** | `TC-10`, `unit: validation`, `integration: admin_panel` | **PASSED** |
+| **[SRS-REQ-CAT-002]** | Add new category | **T / D** | `TC-10`, `unit: validation`, `integration: admin_panel` | **PASSED** |
+| **[SRS-REQ-CAT-003]** | Rename existing category | **T / D** | `TC-10`, `unit: validation`, `integration: admin_panel` | **PASSED** |
+| **[SRS-REQ-CAT-004]** | Non-empty category deletion protection | **T / D** | `TC-10`, `integration: admin_panel`, `playwright: Category Guard Test` | **PASSED** |
+| **[SRS-REQ-PROF-001]**| Update administrator display name | **T / D** | `integration: admin_panel`, `playwright: Admin Profile Update` | **PASSED** |
+| **[SRS-REQ-PROF-002]**| Update administrator password | **T / I** | `integration: admin_panel`, `playwright: Admin Password Change` | **PASSED** |
+| **[SRS-REQ-NFR-SEC-001]**| PDO prepared statements (SQLi defense) | **I / A** | `unit: security`, Code Inspection & Static Audit | **PASSED** |
+| **[SRS-REQ-NFR-SEC-002]**| Output sanitization via `htmlspecialchars` | **I / A** | `unit: security`, Code Inspection & XSS Audit | **PASSED** |
+| **[SRS-REQ-NFR-SEC-003]**| Password hashing with `PASSWORD_DEFAULT` | **I / A** | `unit: security`, Code Inspection & DB Verification | **PASSED** |
+| **[SRS-REQ-NFR-SEC-004]**| Admin session validation on all admin routes| **T / I** | `integration: admin_panel`, `playwright: Admin Route Guards` | **PASSED** |
 
 ---
 
