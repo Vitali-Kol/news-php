@@ -4,7 +4,7 @@ class db {
 
     public function __construct() {
         $host = '127.0.0.1';
-        $db   = 'newsportal';
+        $db   = 'news_db';
         $user = 'root';
         $pass = '';
         $charset = 'utf8mb4';
@@ -19,7 +19,7 @@ class db {
         try {
             $this->pdo = new PDO($dsn, $user, $pass, $options);
         } catch (\PDOException $e) {
-            die("Ошибка подключения к базе данных: " . $e->getMessage());
+            die("Database connection failed: " . $e->getMessage());
         }
     }
 

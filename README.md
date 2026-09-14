@@ -227,7 +227,8 @@ projekt/
 │   └── error404.php                   # 404 error page
 ├── index.php                          # Public website entry point
 ├── package.json                       # Test runner configuration
-└── newsportal.sql                     # MySQL database dump
+├── news_db.sql                        # Primary MySQL database dump (news_db)
+└── newsportal.sql                     # Legacy database dump
 ```
 
 ---
@@ -238,12 +239,12 @@ projekt/
    ```bash
    git clone https://github.com/Vitali-Kol/news-php.git
    ```
-2. Import the `newsportal.sql` database dump into MySQL:
-   - Via phpMyAdmin: create a database named `newsportal` and import `newsportal.sql`.
-   - Или через командную строку:
+2. Import the `news_db.sql` database dump into MySQL:
+   - Via phpMyAdmin: create a database named `news_db` and import `news_db.sql`.
+   - Or via command line:
      ```bash
-     mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS newsportal;"
-     mysql -u root -p newsportal < newsportal.sql
+     mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS news_db;"
+     mysql -u root -p news_db < news_db.sql
      ```
 3. If necessary, adjust your database connection settings in `inc/db.php`.
 4. Open the website in your browser:
