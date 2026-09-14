@@ -1,6 +1,6 @@
 <?php
 class ViewNews {
-    // Вспомогательный метод для получения Data URI изображения
+    // Helper method for Base64 Data URI image
     public static function getImageSrc($blob) {
         if (!empty($blob)) {
             return 'data:image/jpeg;base64,' . base64_encode($blob);
@@ -8,17 +8,17 @@ class ViewNews {
         return 'https://via.placeholder.com/600x400?text=No+Image';
     }
 
-    // Рендеринг отдельной карточки новости
+    // Render single news card
     public static function renderCard($item) {
         $imgSrc = self::getImageSrc($item['picture'] ?? null);
         $title = htmlspecialchars($item['title'] ?? '');
-        $categoryName = htmlspecialchars($item['category_name'] ?? 'Общее');
-        $author = htmlspecialchars($item['author'] ?? 'Редакция');
+        $categoryName = htmlspecialchars($item['category_name'] ?? 'General');
+        $author = htmlspecialchars($item['author'] ?? 'Editorial Staff');
         $id = (int)($item['id'] ?? 0);
         $catId = (int)($item['category_id'] ?? 0);
         $commentCount = Comments::getCommentCountByNewsID($id);
 
-        // Обрезка текста для превью
+        // Preview text truncation
         $fullText = strip_tags($item['text'] ?? '');
         if (mb_strlen($fullText, 'UTF-8') > 160) {
             $previewText = mb_substr($fullText, 0, 160, 'UTF-8') . '...';
@@ -42,20 +42,20 @@ class ViewNews {
                     <p class="card-text text-muted small flex-grow-1">' . htmlspecialchars($previewText) . '</p>
                     <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top">
                         <span class="small text-secondary"><i class="bi bi-person"></i> ' . $author . '</span>
-                        <a href="index.php?action=read&id=' . $id . '#comments" class="text-decoration-none text-muted small me-2" title="Комментарии">
+                        <a href="index.php?action=read&id=' . $id . '#comments" class="text-decoration-none text-muted small me-2" title="Comments">
                             <i class="bi bi-chat-dots-fill text-primary"></i> ' . $commentCount . '
                         </a>
-                        <a href="index.php?action=read&id=' . $id . '" class="btn btn-sm btn-outline-primary rounded-pill px-3">Подробнее &rarr;</a>
+                        <a href="index.php?action=read&id=' . $id . '" class="btn btn-sm btn-outline-primary rounded-pill px-3">Read more &rarr;</a>
                     </div>
                 </div>
             </div>
         </div>';
     }
 
-    // Вывод списка новостей (сетка)
+    // Render list of cards (grid)
     public static function newsList($newsList) {
         if (empty($newsList)) {
-            echo '<div class="alert alert-info" role="alert">Новостей пока нет.</div>';
+            echo '<div class="alert alert-info" role="alert">No news articles available yet.</div>';
             return;
         }
         echo '<div class="row">';
@@ -65,27 +65,27 @@ class ViewNews {
         echo '</div>';
     }
 
-    // Вывод всех новостей
+    // Render all news
     public static function allNews($arr) {
         self::newsList($arr);
     }
 
-    // Вывод новостей по категории
+    // Render news by category
     public static function newsByCategory($arr) {
         self::newsList($arr);
     }
 
-    // Вывод детальной страницы новости
+    // Render full single news detail
     public static function readNews($item) {
         if (empty($item)) {
-            echo '<div class="alert alert-warning">Новость не найдена.</div>';
+            echo '<div class="alert alert-warning">Article not found.</div>';
             return;
         }
 
         $imgSrc = self::getImageSrc($item['picture'] ?? null);
         $title = htmlspecialchars($item['title'] ?? '');
-        $categoryName = htmlspecialchars($item['category_name'] ?? 'Общее');
-        $author = htmlspecialchars($item['author'] ?? 'Редакция');
+        $categoryName = htmlspecialchars($item['category_name'] ?? 'General');
+        $author = htmlspecialchars($item['author'] ?? 'Editorial Staff');
         $catId = (int)($item['category_id'] ?? 0);
         $id = (int)($item['id'] ?? 0);
         $commentCount = Comments::getCommentCountByNewsID($id);
@@ -95,10 +95,10 @@ class ViewNews {
         <article class="news-detail card shadow-sm border-0 p-4 mb-4">
             <nav aria-label="breadcrumb" class="mb-3">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index.php">Главная</a></li>
-                    <li class="breadcrumb-item"><a href="index.php?action=allnews">Все новости</a></li>
+                    <li class="breadcrumb-item"><a href="index.php">Home</a></li>
+                    <li class="breadcrumb-item"><a href="index.php?action=allnews">All News</a></li>
                     <li class="breadcrumb-item"><a href="index.php?action=category&id=' . $catId . '">' . $categoryName . '</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Чтение новости</li>
+                    <li class="breadcrumb-item active" aria-current="page">Read Article</li>
                 </ol>
             </nav>
 
@@ -106,8 +106,8 @@ class ViewNews {
 
             <div class="news-meta d-flex flex-wrap align-items-center text-muted mb-4 pb-2 border-bottom">
                 <span class="badge bg-primary me-3 py-2 px-3">' . $categoryName . '</span>
-                <span class="me-3"><i class="bi bi-person-fill"></i> Автор: <strong>' . $author . '</strong></span>
-                <span class="me-3"><i class="bi bi-chat-dots-fill text-primary"></i> Комментариев: <strong>' . $commentCount . '</strong></span>
+                <span class="me-3"><i class="bi bi-person-fill"></i> Author: <strong>' . $author . '</strong></span>
+                <span class="me-3"><i class="bi bi-chat-dots-fill text-primary"></i> Comments: <strong>' . $commentCount . '</strong></span>
             </div>
 
             <div class="news-detail-image-wrapper mb-4 text-center">
@@ -119,8 +119,8 @@ class ViewNews {
             </div>
 
             <div class="d-flex justify-content-between pt-3 border-top">
-                <a href="javascript:history.back()" class="btn btn-outline-secondary rounded-pill px-4">&larr; Вернуться назад</a>
-                <a href="index.php?action=allnews" class="btn btn-primary rounded-pill px-4">Все новости</a>
+                <a href="javascript:history.back()" class="btn btn-outline-secondary rounded-pill px-4">&larr; Go Back</a>
+                <a href="index.php?action=allnews" class="btn btn-primary rounded-pill px-4">All News</a>
             </div>
         </article>';
     }

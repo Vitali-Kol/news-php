@@ -1,9 +1,9 @@
 <?php
-// Форма добавления новости
+// Add News Article Form
 ?>
 <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
-    <h1 class="h3 fw-bold mb-0"><i class="bi bi-plus-circle text-primary me-2"></i>Добавить новость</h1>
-    <a href="index.php?action=newsAdmin" class="btn btn-outline-secondary rounded-pill px-3">&larr; К списку новостей</a>
+    <h1 class="h3 fw-bold mb-0"><i class="bi bi-plus-circle text-primary me-2"></i>Add News Article</h1>
+    <a href="index.php?action=newsAdmin" class="btn btn-outline-secondary rounded-pill px-3">&larr; Back to News List</a>
 </div>
 
 <?php if (!empty($error)): ?>
@@ -17,15 +17,15 @@
     <div class="card-body p-4">
         <form action="index.php?action=newsAddSave" method="POST" enctype="multipart/form-data">
             <div class="mb-3">
-                <label for="title" class="form-label fw-semibold">Заголовок новости <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" id="title" name="title" placeholder="Введите заголовок" required value="<?= htmlspecialchars($_POST['title'] ?? '') ?>">
+                <label for="title" class="form-label fw-semibold">Article Headline <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="title" name="title" placeholder="Enter article headline..." required value="<?= htmlspecialchars($_POST['title'] ?? '') ?>">
             </div>
 
             <div class="row mb-3">
                 <div class="col-md-6 mb-3 mb-md-0">
-                    <label for="category_id" class="form-label fw-semibold">Категория <span class="text-danger">*</span></label>
+                    <label for="category_id" class="form-label fw-semibold">Category <span class="text-danger">*</span></label>
                     <select class="form-select" id="category_id" name="category_id" required>
-                        <option value="">-- Выберите категорию --</option>
+                        <option value="">-- Select Category --</option>
                         <?php foreach ($categories as $cat): ?>
                             <option value="<?= (int)$cat['id'] ?>" <?= (isset($_POST['category_id']) && $_POST['category_id'] == $cat['id']) ? 'selected' : '' ?>>
                                 <?= htmlspecialchars($cat['name']) ?>
@@ -35,20 +35,20 @@
                 </div>
 
                 <div class="col-md-6">
-                    <label for="picture" class="form-label fw-semibold">Изображение (JPEG/PNG) <span class="text-danger">*</span></label>
+                    <label for="picture" class="form-label fw-semibold">Image (JPEG/PNG) <span class="text-danger">*</span></label>
                     <input type="file" class="form-control" id="picture" name="picture" accept="image/*" required>
                 </div>
             </div>
 
             <div class="mb-4">
-                <label for="text" class="form-label fw-semibold">Текст новости <span class="text-danger">*</span></label>
-                <textarea class="form-control" id="text" name="text" rows="8" placeholder="Полный текст новости..." required><?= htmlspecialchars($_POST['text'] ?? '') ?></textarea>
+                <label for="text" class="form-label fw-semibold">Article Body <span class="text-danger">*</span></label>
+                <textarea class="form-control" id="text" name="text" rows="8" placeholder="Full article body content..." required><?= htmlspecialchars($_POST['text'] ?? '') ?></textarea>
             </div>
 
             <div class="d-flex justify-content-between">
-                <a href="index.php?action=news" class="btn btn-secondary rounded-pill px-4">Отмена</a>
+                <a href="index.php?action=news" class="btn btn-secondary rounded-pill px-4">Cancel</a>
                 <button type="submit" class="btn btn-primary rounded-pill px-5 fw-semibold shadow-sm">
-                    <i class="bi bi-check-lg me-1"></i> Опубликовать новость
+                    <i class="bi bi-check-lg me-1"></i> Publish Article
                 </button>
             </div>
         </form>

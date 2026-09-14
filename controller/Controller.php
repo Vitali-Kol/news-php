@@ -1,9 +1,9 @@
 <?php
 class Controller {
-    // Стартовая страница: вывод 3 последних новостей
+    // Home page: Top 3 news
     public static function StartSite() {
         $arr = News::getLast3News();
-        $pageTitle = 'Главная - Последние новости';
+        $pageTitle = 'Home - Latest News';
 
         ob_start();
         include 'view/start.php';
@@ -11,10 +11,10 @@ class Controller {
         include 'view/layout.php';
     }
 
-    // Страница всех новостей
+    // All News page
     public static function AllNews() {
         $arr = News::getAllNews();
-        $pageTitle = 'Все новости';
+        $pageTitle = 'All News';
 
         ob_start();
         include 'view/allnews.php';
@@ -22,7 +22,7 @@ class Controller {
         include 'view/layout.php';
     }
 
-    // Страница новостей по выбранной категории
+    // News by category
     public static function NewsByCategory($id) {
         $category = Category::getCategoryById($id);
         if (!$category) {
@@ -32,7 +32,7 @@ class Controller {
 
         $arr = News::getNewsByCategory($id);
         $currentCatId = (int)$id;
-        $pageTitle = 'Категория: ' . ($category['name'] ?? '');
+        $pageTitle = 'Category: ' . ($category['name'] ?? '');
 
         ob_start();
         include 'view/catnews.php';
@@ -40,7 +40,7 @@ class Controller {
         include 'view/layout.php';
     }
 
-    // Детальный просмотр отдельной новости для чтения
+    // Read single news article
     public static function ReadNews($id) {
         $n = News::getNewsById($id);
         if (!$n) {
@@ -50,7 +50,7 @@ class Controller {
 
         $comments = Comments::getCommentByNewsID($id);
         $commentsCount = Comments::getCommentCountByNewsID($id);
-        $pageTitle = $n['title'] ?? 'Чтение новости';
+        $pageTitle = $n['title'] ?? 'Read Article';
 
         ob_start();
         include 'view/readnews.php';
@@ -58,7 +58,7 @@ class Controller {
         include 'view/layout.php';
     }
 
-    // Обработка отправки формы добавления комментария
+    // Submit a comment
     public static function InsertComment($id) {
         $id = (int)$id;
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['comment'])) {
@@ -67,19 +67,18 @@ class Controller {
                 Comments::insertComment($c, $id);
             }
         }
-        // Перенаправляем обратно на страницу чтения этой новости
         header('Location: index.php?action=read&id=' . $id);
         exit();
     }
 
-    // Форма входа для обычных пользователей
+    // Public login form
     public static function loginForm($error = null) {
         if (isset($_SESSION['userId'])) {
             header('Location: index.php');
             exit();
         }
 
-        $pageTitle = 'Вход на сайт';
+        $pageTitle = 'Sign In';
 
         ob_start();
         include 'view/formLogin.php';
@@ -87,14 +86,14 @@ class Controller {
         include 'view/layout.php';
     }
 
-    // Обработка авторизации пользователя
+    // Process user login
     public static function loginUser() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $email = trim($_POST['email'] ?? '');
             $password = trim($_POST['password'] ?? '');
 
             if (empty($email) || empty($password)) {
-                self::loginForm('Заполните все обязательные поля!');
+                self::loginForm('Please fill in all required fields!');
                 return;
             }
 
@@ -112,7 +111,7 @@ class Controller {
                 header('Location: index.php?msg=login_success');
                 exit();
             } else {
-                self::loginForm('Неверный E-mail или пароль!');
+                self::loginForm('Invalid email or password!');
                 return;
             }
         }
@@ -120,7 +119,7 @@ class Controller {
         self::loginForm();
     }
 
-    // Выход пользователя из аккаунта
+    // User logout
     public static function logoutUser() {
         unset($_SESSION['userId']);
         unset($_SESSION['sessionId']);
@@ -133,9 +132,9 @@ class Controller {
         exit();
     }
 
-    // Форма регистрации нового пользователя
+    // Registration form
     public static function registerForm() {
-        $pageTitle = 'Регистрация нового пользователя';
+        $pageTitle = 'Register Account';
 
         ob_start();
         include 'view/formRegister.php';
@@ -143,10 +142,10 @@ class Controller {
         include 'view/layout.php';
     }
 
-    // Обработка данных формы регистрации и вывод ответа
+    // Process registration
     public static function registerUser() {
         $result = Register::registerUser();
-        $pageTitle = 'Результат регистрации';
+        $pageTitle = 'Registration Result';
 
         ob_start();
         include 'view/answerRegister.php';
@@ -154,10 +153,10 @@ class Controller {
         include 'view/layout.php';
     }
 
-    // Страница ошибки 404
+    // 404 Error page
     public static function error404() {
         http_response_code(404);
-        $pageTitle = 'Ошибка 404 - Страница не найдена';
+        $pageTitle = 'Error 404 - Page Not Found';
 
         ob_start();
         include 'view/error404.php';

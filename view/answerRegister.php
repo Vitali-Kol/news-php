@@ -1,5 +1,5 @@
 <?php
-// Страница ответа после попытки регистрации
+// Registration Result View
 $isSuccess = isset($result['result']) && $result['result'] === true;
 $message = isset($result['message']) ? htmlspecialchars($result['message']) : '';
 ?>
@@ -9,32 +9,32 @@ $message = isset($result['message']) ? htmlspecialchars($result['message']) : ''
             <div class="display-3 text-success mb-3">
                 <i class="bi bi-check-circle-fill"></i>
             </div>
-            <h2 class="h3 fw-bold text-dark mb-3">Регистрация завершена!</h2>
+            <h2 class="h3 fw-bold text-dark mb-3">Registration Successful!</h2>
             <p class="text-muted fs-5 mb-4">
                 <?= $message ?>
             </p>
             <div class="d-flex justify-content-center gap-2">
                 <a href="index.php?action=login" class="btn btn-primary rounded-pill px-4 py-2 shadow-sm">
-                    <i class="bi bi-box-arrow-in-right me-1"></i> Войти на сайт
+                    <i class="bi bi-box-arrow-in-right me-1"></i> Sign In
                 </a>
                 <a href="index.php" class="btn btn-outline-secondary rounded-pill px-4 py-2">
-                    <i class="bi bi-house me-1"></i> На главную
+                    <i class="bi bi-house me-1"></i> Home
                 </a>
             </div>
         <?php else: ?>
             <div class="display-3 text-danger mb-3">
                 <i class="bi bi-exclamation-triangle-fill"></i>
             </div>
-            <h2 class="h3 fw-bold text-danger mb-3">Ошибка регистрации</h2>
+            <h2 class="h3 fw-bold text-danger mb-3">Registration Failed</h2>
             <p class="text-muted fs-5 mb-4">
                 <?= $message ?>
             </p>
             <div class="d-flex justify-content-center gap-2">
                 <a href="index.php?action=registerForm" class="btn btn-primary rounded-pill px-4 py-2">
-                    <i class="bi bi-arrow-repeat me-1"></i> Попробовать снова
+                    <i class="bi bi-arrow-repeat me-1"></i> Try Again
                 </a>
                 <a href="index.php" class="btn btn-outline-secondary rounded-pill px-4 py-2">
-                    <i class="bi bi-house me-1"></i> На главную
+                    <i class="bi bi-house me-1"></i> Home
                 </a>
             </div>
         <?php endif; ?>

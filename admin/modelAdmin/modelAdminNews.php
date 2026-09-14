@@ -1,6 +1,6 @@
 <?php
 class modelAdminNews {
-    // Получение списка всех новостей
+    // Get list of all news
     public static function getNewsList() {
         $db = new db();
         $query = "SELECT news.*, category.name AS category_name, users.username AS author 
@@ -11,7 +11,7 @@ class modelAdminNews {
         return $db->getAll($query);
     }
 
-    // Получение одной новости по её ID
+    // Get single news by ID
     public static function getNewsByID($id) {
         $db = new db();
         $query = "SELECT news.*, category.name AS category_name, users.username AS author 
@@ -22,13 +22,13 @@ class modelAdminNews {
         return $db->getOne($query, ['id' => (int)$id]);
     }
 
-    // Получение списка категорий для выпадающего списка
+    // Get category list
     public static function getCategoryList() {
         $db = new db();
         return $db->getAll("SELECT * FROM category ORDER BY name ASC");
     }
 
-    // Добавление новой новости
+    // Add news
     public static function getNewsAdd() {
         $result = ['result' => false, 'message' => ''];
 
@@ -39,18 +39,17 @@ class modelAdminNews {
             $userId = (int)($_SESSION['userId'] ?? 1);
 
             if (empty($title) || empty($text) || empty($categoryId)) {
-                $result['message'] = 'Заполните все обязательные поля формы!';
+                $result['message'] = 'Please fill in all required form fields!';
                 return $result;
             }
 
-            // Проверка и чтение файла изображения
             $pictureBlob = null;
             if (isset($_FILES['picture']) && $_FILES['picture']['error'] === UPLOAD_ERR_OK) {
                 $pictureBlob = file_get_contents($_FILES['picture']['tmp_name']);
             }
 
             if (empty($pictureBlob)) {
-                $result['message'] = 'Необходимо выбрать изображение для новости!';
+                $result['message'] = 'An image file must be selected for the news article!';
                 return $result;
             }
 
@@ -68,15 +67,15 @@ class modelAdminNews {
 
             if ($insert) {
                 $result['result'] = true;
-                $result['message'] = 'Новость успешно опубликована!';
+                $result['message'] = 'News article published successfully!';
             } else {
-                $result['message'] = 'Ошибка при добавлении новости в базу данных!';
+                $result['message'] = 'Error inserting news article into database!';
             }
         }
         return $result;
     }
 
-    // Редактирование существующей новости
+    // Edit news
     public static function getNewsEdit($id) {
         $result = ['result' => false, 'message' => ''];
         $id = (int)$id;
@@ -87,7 +86,7 @@ class modelAdminNews {
             $categoryId = (int)($_POST['category_id'] ?? 0);
 
             if (empty($title) || empty($text) || empty($categoryId)) {
-                $result['message'] = 'Заполните все обязательные поля формы!';
+                $result['message'] = 'Please fill in all required form fields!';
                 return $result;
             }
 
@@ -122,44 +121,39 @@ class modelAdminNews {
 
             if ($update) {
                 $result['result'] = true;
-                $result['message'] = 'Новость успешно обновлена!';
+                $result['message'] = 'News article updated successfully!';
             } else {
-                $result['message'] = 'Ошибка при обновлении новости в базе данных!';
+                $result['message'] = 'Error updating news article in database!';
             }
         }
         return $result;
     }
 
-    // Получение количества комментариев к новости
+    // Get comments count
     public static function getCommentCount($newsId) {
         $db = new db();
         $row = $db->getOne("SELECT COUNT(*) AS c FROM comments WHERE news_id = :id", ['id' => (int)$newsId]);
         return (int)($row['c'] ?? 0);
     }
 
-    // Удаление новости и связанных комментариев (обработка POST-формы подтверждения)
+    // Delete news and cascading comments
     public static function getNewsDelete($id) {
         $id = (int)$id;
         $result = ['result' => false, 'message' => ''];
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Проверяем, что в POST-форме передан правильный ID
             $confirmId = (int)($_POST['news_id'] ?? 0);
             if ($confirmId !== $id) {
-                $result['message'] = 'Неверный запрос на удаление!';
+                $result['message'] = 'Invalid delete request!';
                 return $result;
             }
 
             $db = new db();
-            // Сначала удаляем комментарии
             $db->execute("DELETE FROM comments WHERE news_id = :id", ['id' => $id]);
-            // Затем саму новость
             $res = $db->execute("DELETE FROM news WHERE id = :id", ['id' => $id]);
 
             $result['result'] = $res;
-            $result['message'] = $res ? 'Новость успешно удалена.' : 'Ошибка при удалении новости!';
-        } else {
-            $result['message'] = 'Недопустимый метод запроса.';
+            $result['message'] = $res ? 'News article deleted successfully.' : 'Error deleting news article!';
         }
         return $result;
     }

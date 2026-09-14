@@ -37,13 +37,13 @@ async function testValidationSuite() {
     test('validatePassword: reject password shorter than 6 characters', () => {
         const res = validatePassword('12345', '12345');
         assert.strictEqual(res.valid, false);
-        assert.match(res.message, /не менее 6 символов/);
+        assert.match(res.message, /6 characters|символов/i);
     });
 
     test('validatePassword: reject password mismatch', () => {
         const res = validatePassword('securePass123', 'differentPass');
         assert.strictEqual(res.valid, false);
-        assert.match(res.message, /не совпадают/);
+        assert.match(res.message, /do not match|не совпадают/i);
     });
 
     // Required fields validator
@@ -60,8 +60,8 @@ async function testValidationSuite() {
 
     // Category validation
     test('validateCategory: valid category name length', () => {
-        assert.strictEqual(validateCategory('Спорт'), true);
-        assert.strictEqual(validateCategory('IT и Технологии'), true);
+        assert.strictEqual(validateCategory('Sports'), true);
+        assert.strictEqual(validateCategory('IT & Technology'), true);
     });
 
     test('validateCategory: reject empty or single character category', () => {

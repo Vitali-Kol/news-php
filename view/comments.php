@@ -1,39 +1,39 @@
 <?php
 class ViewComments {
-    // Вывод формы для добавления комментария
+    // Render comment submission form
     public static function CommentsForm($newsId) {
         $id = (int)$newsId;
         echo '
         <div class="card shadow-sm border-0 mb-4 mt-4">
             <div class="card-header bg-light fw-bold py-3">
-                <i class="bi bi-chat-left-text me-2"></i> Оставить комментарий
+                <i class="bi bi-chat-left-text me-2"></i> Leave a Comment
             </div>
             <div class="card-body">
                 <form action="index.php?action=insertcomment&id=' . $id . '" method="POST">
                     <div class="mb-3">
-                        <label for="commentText" class="form-label text-muted small">Ваш комментарий:</label>
-                        <textarea class="form-control" id="commentText" name="comment" rows="3" placeholder="Напишите ваш комментарий..." required></textarea>
+                        <label for="commentText" class="form-label text-muted small">Your comment:</label>
+                        <textarea class="form-control" id="commentText" name="comment" rows="3" placeholder="Write your comment here..." required></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary rounded-pill px-4">
-                        <i class="bi bi-send me-1"></i> Отправить комментарий
+                        <i class="bi bi-send me-1"></i> Post Comment
                     </button>
                 </form>
             </div>
         </div>';
     }
 
-    // Вывод списка комментариев для новости
+    // Render comments list
     public static function CommentsByNews($arr) {
         $count = count($arr);
         echo '<div class="comments-section mt-4 mb-4">';
-        echo '<h4 class="fw-bold mb-3"><i class="bi bi-chat-square-text text-primary me-2"></i>Комментарии (' . $count . ')</h4>';
+        echo '<h4 class="fw-bold mb-3"><i class="bi bi-chat-square-text text-primary me-2"></i>Comments (' . $count . ')</h4>';
 
         if (empty($arr)) {
-            echo '<div class="alert alert-light border text-muted py-3">Комментариев пока нет. Будьте первым!</div>';
+            echo '<div class="alert alert-light border text-muted py-3">No comments yet. Be the first to comment!</div>';
         } else {
             echo '<div class="comments-list">';
             foreach ($arr as $comment) {
-                $author = htmlspecialchars($comment['author'] ?? 'Аноним');
+                $author = htmlspecialchars($comment['author'] ?? 'Anonymous');
                 $text = nl2br(htmlspecialchars($comment['text'] ?? ''));
                 $date = !empty($comment['date']) ? date('d.m.Y H:i', strtotime($comment['date'])) : '';
 
@@ -58,7 +58,7 @@ class ViewComments {
         echo '</div>';
     }
 
-    // Вывод количества комментариев со значком
+    // Comments count badge
     public static function CommentsCount($count) {
         $count = (int)$count;
         echo '<span class="badge bg-secondary text-white rounded-pill px-2 py-1">

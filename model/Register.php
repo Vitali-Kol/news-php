@@ -1,6 +1,6 @@
 <?php
 class Register {
-    // Обработка регистрации нового пользователя
+    // Process new user registration
     public static function registerUser() {
         $result = ['result' => false, 'message' => ''];
 
@@ -10,39 +10,39 @@ class Register {
             $password = $_POST['password'] ?? '';
             $passwordConfirm = $_POST['passwordConfirm'] ?? ($_POST['confirm'] ?? ($_POST['password2'] ?? ''));
 
-            // 1. Проверка заполнения полей
+            // 1. Required fields check
             if (empty($username) || empty($email) || empty($password) || empty($passwordConfirm)) {
-                $result['message'] = 'Пожалуйста, заполните все обязательные поля формы.';
+                $result['message'] = 'Please fill in all required form fields.';
                 return $result;
             }
 
-            // 2. Валидация формата email
+            // 2. Email syntax validation
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $result['message'] = 'Введен некорректный адрес электронной почты.';
+                $result['message'] = 'Invalid email address format.';
                 return $result;
             }
 
-            // 3. Проверка совпадения паролей
+            // 3. Password match confirmation
             if ($password !== $passwordConfirm) {
-                $result['message'] = 'Введенные пароли не совпадают.';
+                $result['message'] = 'Entered passwords do not match.';
                 return $result;
             }
 
-            // 4. Проверка длины пароля
+            // 4. Password minimum length check
             if (mb_strlen($password, 'UTF-8') < 6) {
-                $result['message'] = 'Пароль должен содержать не менее 6 символов.';
+                $result['message'] = 'Password must contain at least 6 characters.';
                 return $result;
             }
 
-            // 5. Проверка уникальности email в базе данных
+            // 5. Unique email check
             $db = new db();
             $checkUser = $db->getOne("SELECT id FROM users WHERE email = :email LIMIT 1", ['email' => $email]);
             if ($checkUser) {
-                $result['message'] = 'Пользователь с таким E-mail адресом уже зарегистрирован.';
+                $result['message'] = 'A user with this email address is already registered.';
                 return $result;
             }
 
-            // 6. Хеширование пароля и добавление в БД со статусом 'user'
+            // 6. Secure password hashing and database insertion
             $hash = password_hash($password, PASSWORD_DEFAULT);
             $query = "INSERT INTO users (username, email, password, status, registration_date, pass) 
                       VALUES (:username, :email, :password, 'user', CURDATE(), :pass)";
@@ -56,12 +56,12 @@ class Register {
 
             if ($insert) {
                 $result['result'] = true;
-                $result['message'] = 'Поздравляем! Вы успешно зарегистрировались в системе.';
+                $result['message'] = 'Congratulations! You have successfully registered.';
             } else {
-                $result['message'] = 'Произошла ошибка при сохранении данных в базу данных.';
+                $result['message'] = 'An error occurred while saving data to the database.';
             }
         } else {
-            $result['message'] = 'Неверный метод отправки формы.';
+            $result['message'] = 'Invalid form submission method.';
         }
 
         return $result;

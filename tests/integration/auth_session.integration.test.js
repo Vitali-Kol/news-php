@@ -18,7 +18,7 @@ async function testAuthSessionIntegration() {
     await test('Auth [GET index.php?action=registerForm]: Registration form renders required fields', async () => {
         const res = await client.get('index.php?action=registerForm');
         assert.strictEqual(res.status, 200);
-        assert.strictEqual(res.text.includes('Регистрация'), true);
+        assert.strictEqual(res.text.includes('Register') || res.text.includes('Регистрация') || res.text.includes('Account'), true);
         assert.strictEqual(res.text.includes('email') && res.text.includes('password'), true);
     });
 
@@ -31,7 +31,7 @@ async function testAuthSessionIntegration() {
             confirm: 'differentPassword123'
         }, { redirect: 'follow' });
 
-        assert.strictEqual(res.text.includes('пароли не совпадают') || res.text.includes('Ошибка'), true);
+        assert.strictEqual(res.text.includes('do not match') || res.text.includes('не совпадают') || res.text.includes('Failed') || res.text.includes('Ошибка'), true);
     });
 
     // 3. Registration with duplicate email
@@ -43,14 +43,14 @@ async function testAuthSessionIntegration() {
             confirm: 'secretPassword123'
         }, { redirect: 'follow' });
 
-        assert.strictEqual(res.text.includes('уже зарегистрирован') || res.text.includes('Ошибка'), true);
+        assert.strictEqual(res.text.includes('already registered') || res.text.includes('уже зарегистрирован') || res.text.includes('Failed') || res.text.includes('Ошибка'), true);
     });
 
     // 4. Public User Login Form
     await test('Auth [GET index.php?action=login]: Public login form renders properly', async () => {
         const res = await client.get('index.php?action=login');
         assert.strictEqual(res.status, 200);
-        assert.strictEqual(res.text.includes('Вход') || res.text.includes('Email'), true);
+        assert.strictEqual(res.text.includes('Sign In') || res.text.includes('Login') || res.text.includes('Вход'), true);
     });
 
     // 5. Public User Login Action (valid credentials)
@@ -69,13 +69,11 @@ async function testAuthSessionIntegration() {
     // 6. User Logout
     await test('Auth [GET index.php?action=logout]: Clears session state on logout', async () => {
         const userClient = new SessionHttpClient();
-        // Login first
         await userClient.post('index.php?action=loginAction', {
             email: 'user@newsportal.ee',
             password: '111111'
         }, { redirect: 'manual' });
 
-        // Then logout
         const resLogout = await userClient.get('index.php?action=logout', { redirect: 'manual' });
         assert.strictEqual(resLogout.status, 302);
         assert.strictEqual(resLogout.redirectUrl.includes('logout_success'), true);

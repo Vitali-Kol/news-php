@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= isset($pageTitle) ? htmlspecialchars($pageTitle) . ' | ' : '' ?>Панель управления</title>
+    <title><?= isset($pageTitle) ? htmlspecialchars($pageTitle) . ' | ' : '' ?>Admin Dashboard</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
@@ -59,7 +59,7 @@
 </head>
 <body>
 
-    <!-- Верхняя панель (Navbar) -->
+    <!-- Top Navigation Bar -->
     <nav class="navbar navbar-expand navbar-dark bg-dark sticky-top shadow-sm px-3" style="height: 60px;">
         <a class="navbar-brand fw-bold d-flex align-items-center" href="index.php">
             <i class="bi bi-shield-lock-fill text-primary me-2 fs-4"></i>
@@ -68,7 +68,7 @@
         <ul class="navbar-nav ms-auto align-items-center">
             <li class="nav-item me-3">
                 <a class="btn btn-sm btn-outline-light rounded-pill px-3" href="../index.php" target="_blank">
-                    <i class="bi bi-box-arrow-up-right me-1"></i> Перейти на сайт
+                    <i class="bi bi-box-arrow-up-right me-1"></i> View Website
                 </a>
             </li>
             <li class="nav-item dropdown">
@@ -76,68 +76,68 @@
                     <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 32px; height: 32px;">
                         <i class="bi bi-person-fill"></i>
                     </div>
-                    <span><?= htmlspecialchars($_SESSION['name'] ?? 'Администратор') ?></span>
+                    <span><?= htmlspecialchars($_SESSION['name'] ?? 'Administrator') ?></span>
                     <span class="badge bg-danger ms-2"><?= htmlspecialchars($_SESSION['status'] ?? 'admin') ?></span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end shadow">
-                    <li><a class="dropdown-item" href="index.php?action=profile"><i class="bi bi-person-gear me-2"></i> Профиль / Смена пароля</a></li>
+                    <li><a class="dropdown-item" href="index.php?action=profile"><i class="bi bi-person-gear me-2"></i> Profile / Password</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item text-danger" href="index.php?action=logout"><i class="bi bi-box-arrow-right me-2"></i> Выход</a></li>
+                    <li><a class="dropdown-item text-danger" href="index.php?action=logout"><i class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
                 </ul>
             </li>
         </ul>
     </nav>
 
-    <!-- Главная область: Сайдбар + Контент -->
+    <!-- Main Container: Sidebar + Content -->
     <div class="container-fluid content-wrapper">
         <div class="row">
-            <!-- Боковая панель (Sidebar) -->
+            <!-- Sidebar Navigation -->
             <nav class="col-md-3 col-lg-2 d-md-block admin-sidebar py-4 px-3">
                 <ul class="nav flex-column">
                     <li class="nav-item">
                         <a class="nav-link <?= (!isset($_GET['action']) || $_GET['action'] === 'start') ? 'active' : '' ?>" href="index.php?action=start">
-                            <i class="bi bi-speedometer2 me-2"></i> Главная (Дашборд)
+                            <i class="bi bi-speedometer2 me-2"></i> Dashboard
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link <?= (isset($_GET['action']) && ($_GET['action'] === 'newsAdmin' || $_GET['action'] === 'news')) ? 'active' : '' ?>" href="index.php?action=newsAdmin">
-                            <i class="bi bi-newspaper me-2"></i> Список новостей
+                            <i class="bi bi-newspaper me-2"></i> News Articles
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link <?= (isset($_GET['action']) && $_GET['action'] === 'newsAdd') ? 'active' : '' ?>" href="index.php?action=newsAdd">
-                            <i class="bi bi-plus-circle me-2"></i> Добавить новость
+                            <i class="bi bi-plus-circle me-2"></i> Add News
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link <?= (isset($_GET['action']) && in_array($_GET['action'], ['categoryAdmin','categoryAdd','categoryEdit'])) ? 'active' : '' ?>" href="index.php?action=categoryAdmin">
-                            <i class="bi bi-folder2-open me-2"></i> Категории
+                            <i class="bi bi-folder2-open me-2"></i> Categories
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link <?= (isset($_GET['action']) && $_GET['action'] === 'profile') ? 'active' : '' ?>" href="index.php?action=profile">
-                            <i class="bi bi-person-gear me-2"></i> Управление аккаунтом
+                            <i class="bi bi-person-gear me-2"></i> Account Settings
                         </a>
                     </li>
                     <li class="nav-item mt-4 pt-3 border-top border-secondary">
                         <a class="nav-link text-danger" href="index.php?action=logout">
-                            <i class="bi bi-box-arrow-right me-2"></i> Выйти из системы
+                            <i class="bi bi-box-arrow-right me-2"></i> Sign Out
                         </a>
                     </li>
                 </ul>
             </nav>
 
-            <!-- Основной контент -->
+            <!-- Main Content View -->
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
                 <?= $content ?? '' ?>
             </main>
         </div>
     </div>
 
-    <!-- Подвал -->
+    <!-- Admin Footer -->
     <footer class="footer-admin py-3 mt-auto text-center small">
         <div class="container-fluid">
-            &copy; <?= date('Y') ?> Панель управления Новостным Порталом.
+            &copy; <?= date('Y') ?> NewsPortal Administration Panel.
         </div>
     </footer>
 

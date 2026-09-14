@@ -1,8 +1,8 @@
 <?php
 class controllerAdminNews {
-    // Вывод списка новостей
+    // List news
     public static function newsList() {
-        $pageTitle = 'Список новостей';
+        $pageTitle = 'News Articles';
         $newsList = modelAdminNews::getNewsList();
 
         ob_start();
@@ -11,7 +11,7 @@ class controllerAdminNews {
         include 'viewAdmin/templates/layout.php';
     }
 
-    // Детальный просмотр одной новости
+    // Detail view
     public static function newsDetail($id) {
         $news = modelAdminNews::getNewsByID($id);
         if (!$news) {
@@ -19,7 +19,7 @@ class controllerAdminNews {
             return;
         }
 
-        $pageTitle = 'Просмотр: ' . mb_substr($news['title'], 0, 40, 'UTF-8') . '...';
+        $pageTitle = 'Article: ' . mb_substr($news['title'], 0, 40, 'UTF-8') . '...';
 
         ob_start();
         include 'viewAdmin/newsDetail.php';
@@ -27,9 +27,9 @@ class controllerAdminNews {
         include 'viewAdmin/templates/layout.php';
     }
 
-    // Форма добавления новости
+    // Add form
     public static function newsAddForm($error = null) {
-        $pageTitle = 'Добавить новость';
+        $pageTitle = 'Add News Article';
         $categories = modelAdminNews::getCategoryList();
 
         ob_start();
@@ -38,7 +38,7 @@ class controllerAdminNews {
         include 'viewAdmin/templates/layout.php';
     }
 
-    // Сохранение новой новости
+    // Save new article
     public static function newsAddSave() {
         $res = modelAdminNews::getNewsAdd();
         if ($res['result']) {
@@ -49,7 +49,7 @@ class controllerAdminNews {
         }
     }
 
-    // Форма редактирования новости
+    // Edit form
     public static function newsEditForm($id, $error = null) {
         $news = modelAdminNews::getNewsByID($id);
         if (!$news) {
@@ -57,7 +57,7 @@ class controllerAdminNews {
             return;
         }
 
-        $pageTitle = 'Редактировать новость #' . (int)$id;
+        $pageTitle = 'Edit Article #' . (int)$id;
         $categories = modelAdminNews::getCategoryList();
 
         ob_start();
@@ -66,11 +66,9 @@ class controllerAdminNews {
         include 'viewAdmin/templates/layout.php';
     }
 
-    // Сохранение изменений новости (обработка формы)
+    // Save edited article
     public static function newsEditSave($id) {
         $id = (int)$id;
-
-        // Ещё раз проверяем, что новость существует
         $news = modelAdminNews::getNewsByID($id);
         if (!$news) {
             controllerAdmin::error404();
@@ -82,12 +80,11 @@ class controllerAdminNews {
             header('Location: index.php?action=newsDetail&id=' . $id . '&msg=updated');
             exit();
         } else {
-            // При ошибке — возвращаем форму с сообщением и сохранёнными данными
             self::newsEditForm($id, $res['message']);
         }
     }
 
-    // Страница подтверждения удаления (GET — показываем форму)
+    // Delete confirmation form
     public static function newsDeleteForm($id) {
         $news = modelAdminNews::getNewsByID($id);
         if (!$news) {
@@ -95,7 +92,7 @@ class controllerAdminNews {
             return;
         }
 
-        $pageTitle = 'Удаление новости #' . (int)$id;
+        $pageTitle = 'Delete Article #' . (int)$id;
         $commentCount = modelAdminNews::getCommentCount($id);
 
         ob_start();
@@ -104,13 +101,11 @@ class controllerAdminNews {
         include 'viewAdmin/templates/layout.php';
     }
 
-    // Выполнение удаления (POST — обработка формы подтверждения)
+    // Execute deletion (POST)
     public static function newsDelete($id) {
         $id = (int)$id;
 
-        // Допускаем только POST-запросы (из формы подтверждения)
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            // Если GET — показываем форму подтверждения
             self::newsDeleteForm($id);
             return;
         }

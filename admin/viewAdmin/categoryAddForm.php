@@ -1,9 +1,9 @@
 <?php
-// Форма добавления категории
+// Add Category Form
 ?>
 <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
-    <h1 class="h3 fw-bold mb-0"><i class="bi bi-folder-plus text-success me-2"></i>Добавить категорию</h1>
-    <a href="index.php?action=categoryAdmin" class="btn btn-outline-secondary rounded-pill px-3">&larr; К списку категорий</a>
+    <h1 class="h3 fw-bold mb-0"><i class="bi bi-folder-plus text-success me-2"></i>Add Category</h1>
+    <a href="index.php?action=categoryAdmin" class="btn btn-outline-secondary rounded-pill px-3">&larr; Back to Categories</a>
 </div>
 
 <?php if (!empty($error)): ?>
@@ -17,16 +17,16 @@
     <div class="card-body p-4">
         <form action="index.php?action=categoryAddSave" method="POST">
             <div class="mb-4">
-                <label for="name" class="form-label fw-semibold">Название категории <span class="text-danger">*</span></label>
+                <label for="name" class="form-label fw-semibold">Category Name <span class="text-danger">*</span></label>
                 <input type="text" class="form-control" id="name" name="name"
-                       placeholder="Например: Политика, Спорт, Технологии..."
+                       placeholder="e.g. Politics, Technology, Sports..."
                        value="<?= htmlspecialchars($_POST['name'] ?? '') ?>" required>
-                <div class="form-text">Название должно быть уникальным.</div>
+                <div class="form-text">Category name must be unique.</div>
             </div>
             <div class="d-flex justify-content-between">
-                <a href="index.php?action=categoryAdmin" class="btn btn-secondary rounded-pill px-4">Отмена</a>
+                <a href="index.php?action=categoryAdmin" class="btn btn-secondary rounded-pill px-4">Cancel</a>
                 <button type="submit" class="btn btn-success rounded-pill px-5 fw-semibold shadow-sm">
-                    <i class="bi bi-check-lg me-1"></i> Добавить категорию
+                    <i class="bi bi-check-lg me-1"></i> Add Category
                 </button>
             </div>
         </form>

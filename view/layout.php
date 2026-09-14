@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= isset($pageTitle) ? htmlspecialchars($pageTitle) . ' | ' : '' ?>Сайт Новостей</title>
+    <title><?= isset($pageTitle) ? htmlspecialchars($pageTitle) . ' | ' : '' ?>NewsPortal</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
@@ -70,7 +70,7 @@
 </head>
 <body>
 
-    <!-- ================= HEADER: Раздел меню ================= -->
+    <!-- ================= HEADER ================= -->
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm py-3">
             <div class="container">
@@ -85,17 +85,17 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
                             <a class="nav-link <?= (!isset($_GET['action']) || $_GET['action'] === 'start') ? 'active fw-bold' : '' ?>" href="index.php">
-                                <i class="bi bi-house-door me-1"></i> Главная
+                                <i class="bi bi-house-door me-1"></i> Home
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link <?= (isset($_GET['action']) && $_GET['action'] === 'allnews') ? 'active fw-bold' : '' ?>" href="index.php?action=allnews">
-                                <i class="bi bi-collection me-1"></i> Все новости
+                                <i class="bi bi-collection me-1"></i> All News
                             </a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle <?= (isset($_GET['action']) && $_GET['action'] === 'category') ? 'active fw-bold' : '' ?>" href="#" id="navbarDropdownCat" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-tags me-1"></i> Категории
+                                <i class="bi bi-tags me-1"></i> Categories
                             </a>
                             <ul class="dropdown-menu shadow" aria-labelledby="navbarDropdownCat">
                                 <?php
@@ -112,54 +112,54 @@
                         </li>
                     </ul>
 
-                    <!-- Правый блок: Авторизация пользователей и отдельная кнопка Админки -->
+                    <!-- Right Header Block: Authentication & Admin Button -->
                     <div class="d-flex align-items-center flex-wrap gap-2">
                         <?php if (isset($_SESSION['userId'])): ?>
-                            <!-- Авторизованный пользователь -->
+                            <!-- Authenticated User -->
                             <div class="dropdown">
                                 <button class="btn btn-sm btn-outline-light rounded-pill px-3 dropdown-toggle d-flex align-items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="bi bi-person-circle me-1 fs-6"></i>
-                                    <span><?= htmlspecialchars($_SESSION['name'] ?? 'Пользователь') ?></span>
+                                    <span><?= htmlspecialchars($_SESSION['name'] ?? 'User') ?></span>
                                     <span class="badge <?= ($_SESSION['status'] ?? '') === 'admin' ? 'bg-danger' : 'bg-primary' ?> ms-2 small"><?= htmlspecialchars($_SESSION['status'] ?? 'user') ?></span>
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-end shadow">
                                     <li><h6 class="dropdown-header"><?= htmlspecialchars($_SESSION['email'] ?? '') ?></h6></li>
                                     <?php if (($_SESSION['status'] ?? '') === 'admin'): ?>
-                                        <li><a class="dropdown-item text-primary" href="admin/index.php"><i class="bi bi-speedometer2 me-2"></i>Панель администратора</a></li>
+                                        <li><a class="dropdown-item text-primary" href="admin/index.php"><i class="bi bi-speedometer2 me-2"></i>Admin Dashboard</a></li>
                                         <li><hr class="dropdown-divider"></li>
                                     <?php endif; ?>
-                                    <li><a class="dropdown-item text-danger" href="index.php?action=logout"><i class="bi bi-box-arrow-right me-2"></i>Выход</a></li>
+                                    <li><a class="dropdown-item text-danger" href="index.php?action=logout"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
                                 </ul>
                             </div>
 
-                            <!-- Отдельная кнопка быстрого перехода в админку для админа -->
+                            <!-- Direct Admin Panel Button for Admin -->
                             <?php if (($_SESSION['status'] ?? '') === 'admin'): ?>
-                                <a href="admin/index.php" class="btn btn-sm btn-primary rounded-pill px-3 shadow-sm" title="Перейти в панель администратора">
-                                    <i class="bi bi-shield-lock-fill me-1"></i> Панель Admin
+                                <a href="admin/index.php" class="btn btn-sm btn-primary rounded-pill px-3 shadow-sm" title="Go to Admin Panel">
+                                    <i class="bi bi-shield-lock-fill me-1"></i> Admin Panel
                                 </a>
                             <?php endif; ?>
 
-                            <a href="index.php?action=logout" class="btn btn-sm btn-outline-danger rounded-pill px-3" title="Выйти из аккаунта">
-                                <i class="bi bi-box-arrow-right me-1"></i> Выход
+                            <a href="index.php?action=logout" class="btn btn-sm btn-outline-danger rounded-pill px-3" title="Log out">
+                                <i class="bi bi-box-arrow-right me-1"></i> Logout
                             </a>
 
                         <?php else: ?>
-                            <!-- Неавторизованный посетитель -->
-                            <!-- 1. Основной вход для обычных пользователей -->
+                            <!-- Anonymous Guest -->
+                            <!-- 1. Public User Login -->
                             <a href="index.php?action=login" class="btn btn-sm btn-primary rounded-pill px-3 shadow-sm">
-                                <i class="bi bi-box-arrow-in-right me-1"></i> Вход
+                                <i class="bi bi-box-arrow-in-right me-1"></i> Login
                             </a>
 
-                            <!-- 2. Регистрация нового пользователя -->
+                            <!-- 2. User Registration -->
                             <a href="index.php?action=registerForm" class="btn btn-sm btn-outline-light rounded-pill px-3">
-                                <i class="bi bi-person-plus me-1"></i> Регистрация
+                                <i class="bi bi-person-plus me-1"></i> Register
                             </a>
 
                             <div class="vr bg-secondary mx-1 d-none d-lg-block" style="height: 24px;"></div>
 
-                            <!-- 3. Отдельная кнопка для входа в панель администратора -->
-                            <a href="admin/index.php" class="btn btn-sm admin-btn rounded-pill px-3" title="Вход для администратора">
-                                <i class="bi bi-shield-lock-fill me-1 text-warning"></i> Панель Admin
+                            <!-- 3. Direct Admin Gateway Button -->
+                            <a href="admin/index.php" class="btn btn-sm admin-btn rounded-pill px-3" title="Administrator Login">
+                                <i class="bi bi-shield-lock-fill me-1 text-warning"></i> Admin Panel
                             </a>
                         <?php endif; ?>
                     </div>
@@ -168,41 +168,41 @@
         </nav>
     </header>
 
-    <!-- ================= MAIN: Раздел содержания ================= -->
+    <!-- ================= MAIN CONTENT ================= -->
     <main class="main-container py-4">
         <div class="container">
-            <!-- Уведомления об успешном входе / выходе -->
+            <!-- Flash Notification Alerts -->
             <?php if (isset($_GET['msg']) && $_GET['msg'] === 'login_success'): ?>
                 <div class="alert alert-success alert-dismissible fade show d-flex align-items-center shadow-sm mb-4" role="alert">
                     <i class="bi bi-check-circle-fill fs-5 me-2"></i>
-                    <div>Добро пожаловать, <strong><?= htmlspecialchars($_SESSION['name'] ?? '') ?></strong>! Вы успешно авторизовались на сайте.</div>
+                    <div>Welcome, <strong><?= htmlspecialchars($_SESSION['name'] ?? '') ?></strong>! You have successfully logged in.</div>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             <?php elseif (isset($_GET['msg']) && $_GET['msg'] === 'logout_success'): ?>
                 <div class="alert alert-info alert-dismissible fade show d-flex align-items-center shadow-sm mb-4" role="alert">
                     <i class="bi bi-info-circle-fill fs-5 me-2"></i>
-                    <div>Вы успешно вышли из системы.</div>
+                    <div>You have successfully logged out.</div>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             <?php endif; ?>
 
             <div class="row">
-                <!-- Основная колонка контента -->
+                <!-- Main Content Column -->
                 <div class="col-lg-8 col-md-7">
                     <?= $content ?? '' ?>
                 </div>
 
-                <!-- Боковая колонка (сайдбар с категориями и информацией) -->
+                <!-- Sidebar Column -->
                 <div class="col-lg-4 col-md-5">
                     <?php include 'view/category.php'; ?>
 
                     <div class="card shadow-sm border-0 mb-4">
                         <div class="card-header bg-primary text-white fw-bold py-3">
-                            <i class="bi bi-info-circle me-2"></i> О портале
+                            <i class="bi bi-info-circle me-2"></i> About Portal
                         </div>
                         <div class="card-body">
                             <p class="card-text text-muted small mb-0">
-                                Добро пожаловать на новостной портал! Здесь вы найдете самые свежие и актуальные новости, сгруппированные по категориям.
+                                Welcome to NewsPortal! Here you will find the latest and most relevant news articles organized by category.
                             </p>
                         </div>
                     </div>
@@ -217,14 +217,14 @@
             <div class="row align-items-center">
                 <div class="col-md-6 text-md-start mb-3 mb-md-0">
                     <h5 class="text-white mb-1"><i class="bi bi-newspaper text-primary me-2"></i>NewsPortal</h5>
-                    <p class="small text-muted mb-0">&copy; <?= date('Y') ?> Сайт Новостей. Все права защищены.</p>
+                    <p class="small text-muted mb-0">&copy; <?= date('Y') ?> NewsPortal. All rights reserved.</p>
                 </div>
                 <div class="col-md-6 text-md-end">
-                    <a href="index.php" class="text-secondary text-decoration-none me-3 small">Главная</a>
-                    <a href="index.php?action=allnews" class="text-secondary text-decoration-none me-3 small">Все новости</a>
-                    <a href="index.php?action=login" class="text-secondary text-decoration-none me-3 small">Вход</a>
-                    <a href="index.php?action=registerForm" class="text-secondary text-decoration-none me-3 small">Регистрация</a>
-                    <a href="admin/index.php" class="text-secondary text-decoration-none small"><i class="bi bi-shield-lock-fill text-warning me-1"></i>Панель Admin</a>
+                    <a href="index.php" class="text-secondary text-decoration-none me-3 small">Home</a>
+                    <a href="index.php?action=allnews" class="text-secondary text-decoration-none me-3 small">All News</a>
+                    <a href="index.php?action=login" class="text-secondary text-decoration-none me-3 small">Login</a>
+                    <a href="index.php?action=registerForm" class="text-secondary text-decoration-none me-3 small">Register</a>
+                    <a href="admin/index.php" class="text-secondary text-decoration-none small"><i class="bi bi-shield-lock-fill text-warning me-1"></i>Admin Panel</a>
                 </div>
             </div>
         </div>

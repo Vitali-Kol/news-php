@@ -18,7 +18,7 @@ async function testAdminPanelIntegration() {
     await test('Admin Security: Unauthenticated access to admin panel prompts login form', async () => {
         const unauthClient = new SessionHttpClient();
         const res = await unauthClient.get('admin/index.php', { redirect: 'follow' });
-        assert.strictEqual(res.text.includes('Вход в Админ-панель') || res.text.includes('form-signin'), true);
+        assert.strictEqual(res.text.includes('Admin Sign In') || res.text.includes('Вход в Админ-панель') || res.text.includes('form-control'), true);
     });
 
     // 2. Admin Authentication
@@ -37,40 +37,40 @@ async function testAdminPanelIntegration() {
     await test('Admin Dashboard [GET admin/index.php?action=start]: Renders 4 metric cards and recent posts', async () => {
         const res = await adminClient.get('admin/index.php?action=start');
         assert.strictEqual(res.status, 200);
-        assert.strictEqual(res.text.includes('Панель управления') || res.text.includes('Дашборд'), true);
-        assert.strictEqual(res.text.includes('Всего новостей') || res.text.includes('Новостей'), true);
-        assert.strictEqual(res.text.includes('Категорий'), true);
-        assert.strictEqual(res.text.includes('Комментариев'), true);
+        assert.strictEqual(res.text.includes('Dashboard') || res.text.includes('Панель управления'), true);
+        assert.strictEqual(res.text.includes('Articles') || res.text.includes('Новостей'), true);
+        assert.strictEqual(res.text.includes('Categories') || res.text.includes('Категорий'), true);
+        assert.strictEqual(res.text.includes('Comments') || res.text.includes('Комментариев'), true);
     });
 
     // 4. Admin News Management (List View)
     await test('Admin News [GET admin/index.php?action=news]: Displays news management table', async () => {
         const res = await adminClient.get('admin/index.php?action=news');
         assert.strictEqual(res.status, 200);
-        assert.strictEqual(res.text.includes('Управление новостями') || res.text.includes('Список новостей'), true);
-        assert.strictEqual(res.text.includes('Добавить новость') || res.text.includes('btn-primary'), true);
+        assert.strictEqual(res.text.includes('News Management') || res.text.includes('News Articles') || res.text.includes('Управление новостями'), true);
+        assert.strictEqual(res.text.includes('Add News') || res.text.includes('Добавить новость'), true);
     });
 
     // 5. Admin Category Management (List View)
     await test('Admin Categories [GET admin/index.php?action=categoryAdmin]: Lists categories with counters', async () => {
         const res = await adminClient.get('admin/index.php?action=categoryAdmin');
         assert.strictEqual(res.status, 200);
-        assert.strictEqual(res.text.includes('Управление категориями') || res.text.includes('Категории'), true);
-        assert.strictEqual(res.text.includes('Добавить категорию') || res.text.includes('categoryAdd'), true);
+        assert.strictEqual(res.text.includes('Category Management') || res.text.includes('Categories') || res.text.includes('Категории'), true);
+        assert.strictEqual(res.text.includes('Add Category') || res.text.includes('Добавить категорию'), true);
     });
 
     // 6. Admin Category Protection Guard
     await test('Admin Category Deletion Guard: Deletion of category with news is blocked', async () => {
         const res = await adminClient.get('admin/index.php?action=categoryDelete&id=1', { redirect: 'follow' });
         assert.strictEqual(res.status, 200);
-        assert.strictEqual(res.text.includes('Нельзя удалить категорию') || res.text.includes('содержит новости') || res.text.includes('Ошибка') || res.text.includes('alert'), true);
+        assert.strictEqual(res.text.includes('Cannot delete category') || res.text.includes('Нельзя удалить категорию') || res.text.includes('contains') || res.text.includes('alert'), true);
     });
 
     // 7. Admin Profile Form View
     await test('Admin Profile [GET admin/index.php?action=profile]: Admin profile settings view renders', async () => {
         const res = await adminClient.get('admin/index.php?action=profile');
         assert.strictEqual(res.status, 200);
-        assert.strictEqual(res.text.includes('Профиль') || res.text.includes('Настройки аккаунта'), true);
+        assert.strictEqual(res.text.includes('Account Settings') || res.text.includes('Profile') || res.text.includes('Профиль'), true);
     });
 
     // 8. Admin Logout

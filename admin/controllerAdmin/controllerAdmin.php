@@ -1,19 +1,19 @@
 <?php
 class controllerAdmin {
-    // Отображение формы авторизации
+    // Show login form
     public static function formLogin($error = null) {
-        $pageTitle = 'Вход в панель управления';
+        $pageTitle = 'Admin Sign In';
         include 'viewAdmin/formLogin.php';
     }
 
-    // Обработка попытки входа
+    // Process admin login
     public static function loginAction() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $email = $_POST['email'] ?? '';
             $password = $_POST['password'] ?? '';
 
             if (empty($email) || empty($password)) {
-                self::formLogin('Заполните все поля!');
+                self::formLogin('Please fill in all required fields!');
                 return;
             }
 
@@ -22,23 +22,23 @@ class controllerAdmin {
                 header('Location: index.php?action=start');
                 exit();
             } else {
-                self::formLogin($res['message'] ?? 'Неверный логин или пароль');
+                self::formLogin($res['message'] ?? 'Invalid email or password');
                 return;
             }
         }
         self::formLogin();
     }
 
-    // Выход из системы
+    // Admin logout
     public static function logoutAction() {
         modelAdmin::userLogout();
         header('Location: index.php');
         exit();
     }
 
-    // Главная страница админ-панели (Дашборд)
+    // Admin Dashboard
     public static function startAdmin() {
-        $pageTitle = 'Дашборд';
+        $pageTitle = 'Dashboard';
         $stats = modelAdmin::getStats();
         $recentNews = modelAdmin::getNewsList();
 
@@ -48,9 +48,9 @@ class controllerAdmin {
         include 'viewAdmin/templates/layout.php';
     }
 
-    // Список новостей
+    // News list
     public static function newsList() {
-        $pageTitle = 'Управление новостями';
+        $pageTitle = 'News Management';
         $newsList = modelAdmin::getNewsList();
 
         ob_start();
@@ -59,9 +59,9 @@ class controllerAdmin {
         include 'viewAdmin/templates/layout.php';
     }
 
-    // Форма добавления новости
+    // Add news form
     public static function newsAddForm($error = null) {
-        $pageTitle = 'Добавить новость';
+        $pageTitle = 'Add News';
         $categories = modelAdmin::getAllCategories();
 
         ob_start();
@@ -70,7 +70,7 @@ class controllerAdmin {
         include 'viewAdmin/templates/layout.php';
     }
 
-    // Сохранение новой новости
+    // Save added news
     public static function newsAddSave() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $title = $_POST['title'] ?? '';
@@ -79,18 +79,17 @@ class controllerAdmin {
             $userId = (int)($_SESSION['userId'] ?? 1);
 
             if (empty($title) || empty($text) || empty($categoryId)) {
-                self::newsAddForm('Пожалуйста, заполните все обязательные поля!');
+                self::newsAddForm('Please fill in all required fields!');
                 return;
             }
 
-            // Обработка загруженного файла картинки
             $pictureBlob = null;
             if (isset($_FILES['picture']) && $_FILES['picture']['error'] === UPLOAD_ERR_OK) {
                 $pictureBlob = file_get_contents($_FILES['picture']['tmp_name']);
             }
 
             if (empty($pictureBlob)) {
-                self::newsAddForm('Необходимо прикрепить изображение для новости!');
+                self::newsAddForm('An image must be uploaded for the news article!');
                 return;
             }
 
@@ -99,14 +98,14 @@ class controllerAdmin {
                 header('Location: index.php?action=news&msg=added');
                 exit();
             } else {
-                self::newsAddForm('Ошибка при сохранении новости в базу данных!');
+                self::newsAddForm('Error saving article to the database!');
                 return;
             }
         }
         self::newsList();
     }
 
-    // Форма редактирования новости
+    // Edit news form
     public static function newsEditForm($id, $error = null) {
         $news = modelAdmin::getNewsById($id);
         if (!$news) {
@@ -114,7 +113,7 @@ class controllerAdmin {
             return;
         }
 
-        $pageTitle = 'Редактировать новость #' . $id;
+        $pageTitle = 'Edit Article #' . $id;
         $categories = modelAdmin::getAllCategories();
 
         ob_start();
@@ -123,7 +122,7 @@ class controllerAdmin {
         include 'viewAdmin/templates/layout.php';
     }
 
-    // Сохранение изменений новости
+    // Save edited news
     public static function newsEditSave($id) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $title = $_POST['title'] ?? '';
@@ -131,7 +130,7 @@ class controllerAdmin {
             $categoryId = (int)($_POST['category_id'] ?? 0);
 
             if (empty($title) || empty($text) || empty($categoryId)) {
-                self::newsEditForm($id, 'Пожалуйста, заполните все обязательные поля!');
+                self::newsEditForm($id, 'Please fill in all required fields!');
                 return;
             }
 
@@ -145,21 +144,21 @@ class controllerAdmin {
                 header('Location: index.php?action=news&msg=updated');
                 exit();
             } else {
-                self::newsEditForm($id, 'Ошибка при обновлении новости!');
+                self::newsEditForm($id, 'Error updating news article!');
                 return;
             }
         }
         self::newsList();
     }
 
-    // Удаление новости
+    // Delete news
     public static function newsDelete($id) {
         modelAdmin::newsDelete($id);
         header('Location: index.php?action=news&msg=deleted');
         exit();
     }
 
-    // Форма управления аккаунтом
+    // Account settings profile form
     public static function profileForm($error = null) {
         $userId = $_SESSION['userId'] ?? 0;
         $user = modelAdmin::getUserById($userId);
@@ -168,7 +167,7 @@ class controllerAdmin {
             return;
         }
 
-        $pageTitle = 'Управление аккаунтом';
+        $pageTitle = 'Account Settings';
 
         ob_start();
         include 'viewAdmin/profileForm.php';
@@ -176,7 +175,7 @@ class controllerAdmin {
         include 'viewAdmin/templates/layout.php';
     }
 
-    // Сохранение изменений профиля
+    // Save profile changes
     public static function profileSave() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $userId = $_SESSION['userId'] ?? 0;
@@ -184,12 +183,12 @@ class controllerAdmin {
             $password = $_POST['password'] ?? '';
 
             if (empty($username)) {
-                self::profileForm('Имя пользователя не может быть пустым!');
+                self::profileForm('Full Name cannot be empty!');
                 return;
             }
 
             if (!empty($password) && mb_strlen($password, 'UTF-8') < 6) {
-                self::profileForm('Пароль должен содержать минимум 6 символов!');
+                self::profileForm('Password must contain at least 6 characters!');
                 return;
             }
 
@@ -198,17 +197,17 @@ class controllerAdmin {
                 header('Location: index.php?action=profile&msg=saved');
                 exit();
             } else {
-                self::profileForm('Ошибка при сохранении профиля!');
+                self::profileForm('Error saving profile changes!');
                 return;
             }
         }
         self::profileForm();
     }
 
-    // Страница 404 ошибки
+    // Admin 404 Error page
     public static function error404() {
         http_response_code(404);
-        $pageTitle = 'Ошибка 404 - Страница не найдена';
+        $pageTitle = 'Error 404 - Page Not Found';
 
         ob_start();
         include 'viewAdmin/error404.php';

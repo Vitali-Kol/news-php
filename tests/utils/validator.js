@@ -5,20 +5,19 @@ function validateEmail(email) {
     if (!email || typeof email !== 'string') return false;
     const trimmed = email.trim();
     if (trimmed.length === 0 || trimmed.length > 255) return false;
-    // Standard RFC-compliant regex matching PHP FILTER_VALIDATE_EMAIL
     const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
     return emailRegex.test(trimmed);
 }
 
 function validatePassword(password, confirmPassword = null) {
     if (!password || typeof password !== 'string') {
-        return { valid: false, message: 'Пароль обязателен для заполнения' };
+        return { valid: false, message: 'Password is required' };
     }
     if (password.length < 6) {
-        return { valid: false, message: 'Пароль должен содержать не менее 6 символов' };
+        return { valid: false, message: 'Password must contain at least 6 characters' };
     }
     if (confirmPassword !== null && password !== confirmPassword) {
-        return { valid: false, message: 'Введенные пароли не совпадают' };
+        return { valid: false, message: 'Entered passwords do not match' };
     }
     return { valid: true, message: 'OK' };
 }

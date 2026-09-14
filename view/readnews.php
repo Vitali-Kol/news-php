@@ -1,11 +1,11 @@
 <?php
-// Вывод выбранной новости для чтения
+// Single article view
 ViewNews::readNews($n);
 
-// Форма добавления комментария
+// Comment Submission Form
 ViewComments::CommentsForm($n['id']);
 
-// Блок вывода комментариев к новости
+// Comments List Section
 echo '<div id="comments">';
 ViewComments::CommentsByNews($comments ?? []);
 echo '</div>';

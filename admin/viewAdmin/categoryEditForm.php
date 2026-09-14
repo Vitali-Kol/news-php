@@ -1,9 +1,9 @@
 <?php
-// Форма редактирования категории
+// Edit Category Form
 ?>
 <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
-    <h1 class="h3 fw-bold mb-0"><i class="bi bi-folder-symlink text-primary me-2"></i>Редактировать категорию #<?= (int)$category['id'] ?></h1>
-    <a href="index.php?action=categoryAdmin" class="btn btn-outline-secondary rounded-pill px-3">&larr; К списку категорий</a>
+    <h1 class="h3 fw-bold mb-0"><i class="bi bi-folder-symlink text-primary me-2"></i>Edit Category #<?= (int)$category['id'] ?></h1>
+    <a href="index.php?action=categoryAdmin" class="btn btn-outline-secondary rounded-pill px-3">&larr; Back to Categories</a>
 </div>
 
 <?php if (!empty($error)): ?>
@@ -17,15 +17,15 @@
     <div class="card-body p-4">
         <form action="index.php?action=categoryEditSave&id=<?= (int)$category['id'] ?>" method="POST">
             <div class="mb-4">
-                <label for="name" class="form-label fw-semibold">Название категории <span class="text-danger">*</span></label>
+                <label for="name" class="form-label fw-semibold">Category Name <span class="text-danger">*</span></label>
                 <input type="text" class="form-control" id="name" name="name"
                        value="<?= htmlspecialchars($_POST['name'] ?? $category['name']) ?>" required>
-                <div class="form-text">Название должно быть уникальным.</div>
+                <div class="form-text">Category name must be unique.</div>
             </div>
             <div class="d-flex justify-content-between">
-                <a href="index.php?action=categoryAdmin" class="btn btn-secondary rounded-pill px-4">Отмена</a>
+                <a href="index.php?action=categoryAdmin" class="btn btn-secondary rounded-pill px-4">Cancel</a>
                 <button type="submit" class="btn btn-primary rounded-pill px-5 fw-semibold shadow-sm">
-                    <i class="bi bi-save me-1"></i> Сохранить изменения
+                    <i class="bi bi-save me-1"></i> Save Changes
                 </button>
             </div>
         </form>

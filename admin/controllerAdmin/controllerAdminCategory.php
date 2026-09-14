@@ -1,9 +1,9 @@
 <?php
 class controllerAdminCategory {
 
-    // Список категорий
+    // Category list
     public static function categoryList() {
-        $pageTitle = 'Управление категориями';
+        $pageTitle = 'Category Management';
         $categoryList = modelAdminCategory::getCategoryList();
 
         ob_start();
@@ -12,9 +12,9 @@ class controllerAdminCategory {
         include 'viewAdmin/templates/layout.php';
     }
 
-    // Форма добавления категории
+    // Add category form
     public static function categoryAddForm($error = null) {
-        $pageTitle = 'Добавить категорию';
+        $pageTitle = 'Add Category';
 
         ob_start();
         include 'viewAdmin/categoryAddForm.php';
@@ -22,7 +22,7 @@ class controllerAdminCategory {
         include 'viewAdmin/templates/layout.php';
     }
 
-    // Сохранение новой категории
+    // Save added category
     public static function categoryAddSave() {
         $res = modelAdminCategory::categoryAdd();
         if ($res['result']) {
@@ -33,7 +33,7 @@ class controllerAdminCategory {
         }
     }
 
-    // Форма редактирования категории
+    // Edit category form
     public static function categoryEditForm($id, $error = null) {
         $category = modelAdminCategory::getCategoryById($id);
         if (!$category) {
@@ -41,7 +41,7 @@ class controllerAdminCategory {
             return;
         }
 
-        $pageTitle = 'Редактировать категорию #' . (int)$id;
+        $pageTitle = 'Edit Category #' . (int)$id;
 
         ob_start();
         include 'viewAdmin/categoryEditForm.php';
@@ -49,7 +49,7 @@ class controllerAdminCategory {
         include 'viewAdmin/templates/layout.php';
     }
 
-    // Сохранение изменений категории
+    // Save edited category
     public static function categoryEditSave($id) {
         $res = modelAdminCategory::categoryEdit($id);
         if ($res['result']) {
@@ -60,7 +60,7 @@ class controllerAdminCategory {
         }
     }
 
-    // Удаление категории
+    // Delete category
     public static function categoryDelete($id) {
         $res = modelAdminCategory::categoryDelete($id);
         if ($res['result']) {
