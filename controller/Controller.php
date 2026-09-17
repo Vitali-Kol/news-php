@@ -42,18 +42,37 @@ class Controller {
 
     // Read single news article
     public static function ReadNews($id) {
+        $id = (int)$id;
         $n = News::getNewsById($id);
         if (!$n) {
             self::error404();
             return;
         }
 
+        // Increment view counter
+        AppHelper::incrementViews($id);
+
         $comments = Comments::getCommentByNewsID($id);
         $commentsCount = Comments::getCommentCountByNewsID($id);
+        $relatedNews = News::getRelatedNews($n['category_id'] ?? 0, $id, 3);
         $pageTitle = $n['title'] ?? 'Read Article';
 
         ob_start();
         include 'view/readnews.php';
+        $content = ob_get_clean();
+        include 'view/layout.php';
+    }
+
+    // Search news
+    public static function SearchNews() {
+        $keyword = trim($_GET['q'] ?? '');
+        $arr = !empty($keyword) ? News::searchNews($keyword) : [];
+        $pageTitle = !empty($keyword) ? 'Search results for: ' . htmlspecialchars($keyword) : 'Search Articles';
+        $isSearch = true;
+        $searchQuery = $keyword;
+
+        ob_start();
+        include 'view/allnews.php';
         $content = ob_get_clean();
         include 'view/layout.php';
     }
@@ -64,10 +83,14 @@ class Controller {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['comment'])) {
             $c = trim($_POST['comment']);
             if (!empty($c) && $id > 0) {
-                Comments::insertComment($c, $id);
+                // Verify news exists before adding comment
+                $article = News::getNewsById($id);
+                if ($article) {
+                    Comments::insertComment($c, $id);
+                }
             }
         }
-        header('Location: index.php?action=read&id=' . $id);
+        header('Location: index.php?action=read&id=' . $id . '&msg=comment_added#comments');
         exit();
     }
 

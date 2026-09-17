@@ -29,8 +29,21 @@
 <?php endif; ?>
 
 <div class="card shadow-sm border-0 mb-4">
+    <div class="card-body bg-light border-bottom py-2">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <div class="input-group input-group-sm">
+                    <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+                    <input type="text" id="newsFilterInput" class="form-control" placeholder="Quick filter by title, author, category...">
+                </div>
+            </div>
+            <div class="col-md-6 text-md-end text-muted small mt-2 mt-md-0">
+                Showing <span id="visibleNewsCount"><?= count($newsList) ?></span> of <?= count($newsList) ?> items
+            </div>
+        </div>
+    </div>
     <div class="table-responsive">
-        <table class="table table-hover align-middle mb-0">
+        <table class="table table-hover align-middle mb-0" id="newsTable">
             <thead class="table-light">
                 <tr>
                     <th style="width: 50px;">ID</th>
@@ -86,3 +99,31 @@
         </table>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const input = document.getElementById('newsFilterInput');
+    const table = document.getElementById('newsTable');
+    const countEl = document.getElementById('visibleNewsCount');
+    if (!input || !table) return;
+
+    input.addEventListener('input', function () {
+        const query = this.value.toLowerCase().trim();
+        const rows = table.querySelectorAll('tbody tr');
+        let visibleCount = 0;
+
+        rows.forEach(row => {
+            if (row.cells.length <= 1) return; // skip empty state row
+            const text = row.innerText.toLowerCase();
+            if (text.includes(query)) {
+                row.style.display = '';
+                visibleCount++;
+            } else {
+                row.style.display = 'none';
+            }
+        });
+
+        if (countEl) countEl.textContent = visibleCount;
+    });
+});
+</script>

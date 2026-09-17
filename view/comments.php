@@ -3,6 +3,7 @@ class ViewComments {
     // Render comment submission form
     public static function CommentsForm($newsId) {
         $id = (int)$newsId;
+        $csrfField = Csrf::getFormField();
         echo '
         <div class="card shadow-sm border-0 mb-4 mt-4">
             <div class="card-header bg-light fw-bold py-3">
@@ -10,6 +11,7 @@ class ViewComments {
             </div>
             <div class="card-body">
                 <form action="index.php?action=insertcomment&id=' . $id . '" method="POST">
+                    ' . $csrfField . '
                     <div class="mb-3">
                         <label for="commentText" class="form-label text-muted small">Your comment:</label>
                         <textarea class="form-control" id="commentText" name="comment" rows="3" placeholder="Write your comment here..." required></textarea>

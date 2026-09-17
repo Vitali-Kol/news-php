@@ -13,6 +13,7 @@
         </p>
 
         <form action="index.php?action=registerAnswer" method="POST">
+            <?= Csrf::getFormField() ?>
             <div class="mb-3">
                 <label for="regUsername" class="form-label fw-semibold">Full Name <span class="text-danger">*</span></label>
                 <div class="input-group">

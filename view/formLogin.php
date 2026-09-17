@@ -20,6 +20,7 @@
         <?php endif; ?>
 
         <form action="index.php?action=loginAction" method="POST">
+            <?= Csrf::getFormField() ?>
             <div class="mb-3">
                 <label for="email" class="form-label fw-semibold">Email Address</label>
                 <div class="input-group">

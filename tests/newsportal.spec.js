@@ -49,7 +49,7 @@ test.describe('NewsPortal (PHP MVC) — Playwright Visual E2E Tests', () => {
     const commentInput = page.locator('textarea[name="comment"]');
     const commentText = `Playwright E2E Comment [${Date.now()}]`;
     await commentInput.fill(commentText);
-    const submitCommentBtn = page.locator('button[type="submit"]:has-text("Comment"), button[type="submit"]:has-text("комментарий"), button[type="submit"]').first();
+    const submitCommentBtn = page.locator('form[action*="insertcomment"] button[type="submit"], button:has-text("Post Comment")').first();
     await visualClick(submitCommentBtn);
 
     // Verify comment appears in feed
@@ -72,7 +72,7 @@ test.describe('NewsPortal (PHP MVC) — Playwright Visual E2E Tests', () => {
     await page.locator('#regEmail').fill(uniqueEmail);
     await page.locator('#regPassword').fill(password);
     await page.locator('#regPasswordConfirm').fill('differentPassword');
-    await visualClick(page.locator('form button[type="submit"]'));
+    await visualClick(page.locator('main form button[type="submit"], form[action*="registerAnswer"] button[type="submit"]').first());
     await expect(page.locator('body')).toContainText(/do not match|не совпадают|Failed|Ошибка/i);
 
     // 2.3 Successful registration
@@ -81,14 +81,14 @@ test.describe('NewsPortal (PHP MVC) — Playwright Visual E2E Tests', () => {
     await page.locator('#regEmail').fill(uniqueEmail);
     await page.locator('#regPassword').fill(password);
     await page.locator('#regPasswordConfirm').fill(password);
-    await visualClick(page.locator('form button[type="submit"]'));
+    await visualClick(page.locator('main form button[type="submit"], form[action*="registerAnswer"] button[type="submit"]').first());
     await expect(page.locator('body')).toContainText(/Successful|Complete|Регистрация завершена|успешно/i);
 
     // 2.4 Login as registered user
     await page.goto(`${BASE}/index.php?action=login`);
     await page.locator('#email').fill(uniqueEmail);
     await page.locator('#password').fill(password);
-    await visualClick(page.locator('form button[type="submit"]'));
+    await visualClick(page.locator('main form button[type="submit"], form[action*="loginAction"] button[type="submit"]').first());
 
     // 2.5 Verify logged in state in navbar
     await expect(page.locator('.navbar')).toContainText('Playwright Tester');

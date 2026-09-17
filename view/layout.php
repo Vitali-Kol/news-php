@@ -9,12 +9,26 @@
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
+        :root {
+            --app-bg: #f8f9fa;
+            --app-card-bg: #ffffff;
+            --app-text: #212529;
+            --app-border: #e9ecef;
+        }
+        [data-bs-theme="dark"] {
+            --app-bg: #0f172a;
+            --app-card-bg: #1e293b;
+            --app-text: #f8fafc;
+            --app-border: #334155;
+        }
         body {
-            background-color: #f8f9fa;
+            background-color: var(--app-bg);
+            color: var(--app-text);
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            transition: background-color 0.3s, color 0.3s;
         }
         .navbar-brand {
             font-weight: 700;
@@ -32,6 +46,7 @@
             transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
             overflow: hidden;
             border-radius: 12px;
+            background-color: var(--app-card-bg);
         }
         .news-card:hover {
             transform: translateY(-4px);
@@ -45,8 +60,8 @@
         }
         .footer {
             flex-shrink: 0;
-            background-color: #212529;
-            color: #adb5bd;
+            background-color: #0f172a;
+            color: #94a3b8;
         }
         .hero-banner {
             background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
@@ -66,9 +81,30 @@
             border-color: #0d6efd;
             color: #ffffff;
         }
+        #readingProgress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #0d6efd, #0dcaf0);
+            z-index: 9999;
+            width: 0%;
+            transition: width 0.1s;
+        }
+        .theme-toggle-btn {
+            width: 36px;
+            height: 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
     </style>
 </head>
 <body>
+    <div id="readingProgress"></div>
 
     <!-- ================= HEADER ================= -->
     <header>
@@ -112,8 +148,24 @@
                         </li>
                     </ul>
 
-                    <!-- Right Header Block: Authentication & Admin Button -->
+                    <!-- Search Bar Form -->
+                    <form class="d-flex me-lg-3 my-2 my-lg-0" role="search" action="index.php" method="GET">
+                        <input type="hidden" name="action" value="search">
+                        <div class="input-group input-group-sm">
+                            <input class="form-control rounded-start-pill px-3" type="search" name="q" placeholder="Search news..." aria-label="Search" required value="<?= htmlspecialchars($_GET['q'] ?? '') ?>">
+                            <button class="btn btn-primary rounded-end-pill px-3" type="submit" title="Search">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Right Header Block: Dark Mode + Auth & Admin Button -->
                     <div class="d-flex align-items-center flex-wrap gap-2">
+                        <!-- Dark / Light Mode Switcher Button -->
+                        <button class="btn btn-sm btn-outline-secondary theme-toggle-btn text-warning me-1" id="themeToggle" type="button" title="Toggle Dark/Light Mode">
+                            <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
+                        </button>
+
                         <?php if (isset($_SESSION['userId'])): ?>
                             <!-- Authenticated User -->
                             <div class="dropdown">
@@ -232,5 +284,50 @@
 
     <!-- Bootstrap 5 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Theme Switcher Logic
+        (function() {
+            const themeToggleBtn = document.getElementById('themeToggle');
+            const themeIcon = document.getElementById('themeIcon');
+            const htmlElement = document.documentElement;
+
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            setTheme(savedTheme);
+
+            if (themeToggleBtn) {
+                themeToggleBtn.addEventListener('click', () => {
+                    const currentTheme = htmlElement.getAttribute('data-bs-theme') || 'light';
+                    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                    setTheme(newTheme);
+                    localStorage.setItem('theme', newTheme);
+                });
+            }
+
+            function setTheme(theme) {
+                htmlElement.setAttribute('data-bs-theme', theme);
+                if (themeIcon) {
+                    if (theme === 'dark') {
+                        themeIcon.classList.remove('bi-moon-stars-fill');
+                        themeIcon.classList.add('bi-sun-fill');
+                    } else {
+                        themeIcon.classList.remove('bi-sun-fill');
+                        themeIcon.classList.add('bi-moon-stars-fill');
+                    }
+                }
+            }
+        })();
+
+        // Reading Progress Indicator
+        window.addEventListener('scroll', () => {
+            const progressBar = document.getElementById('readingProgress');
+            if (progressBar) {
+                const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+                if (totalHeight > 0) {
+                    const progress = (window.scrollY / totalHeight) * 100;
+                    progressBar.style.width = Math.min(100, Math.max(0, progress)) + '%';
+                }
+            }
+        });
+    </script>
 </body>
 </html>

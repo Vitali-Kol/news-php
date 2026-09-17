@@ -39,6 +39,9 @@ switch ($action) {
     case 'registerAnswer':
         Controller::registerUser();
         break;
+    case 'search':
+        Controller::SearchNews();
+        break;
     default:
         Controller::error404();
 }
