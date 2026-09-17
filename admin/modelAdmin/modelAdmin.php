@@ -3,7 +3,10 @@ class modelAdmin {
     // User login authentication
     public static function userLogin($email, $password) {
         $db = new db();
-        $query = "SELECT * FROM users WHERE email = :email LIMIT 1";
+        $query = "SELECT account_id AS id, full_name AS username, email_address AS email, 
+                         pass_hash AS password, access_role AS status, occupation_title AS job, 
+                         auth_handle AS login, plain_backup AS pass 
+                  FROM accounts WHERE email_address = :email LIMIT 1";
         $user = $db->getOne($query, ['email' => trim($email)]);
 
         if ($user) {
@@ -32,7 +35,10 @@ class modelAdmin {
     // Get user by ID
     public static function getUserById($id) {
         $db = new db();
-        $query = "SELECT * FROM users WHERE id = :id";
+        $query = "SELECT account_id AS id, full_name AS username, email_address AS email, 
+                         pass_hash AS password, access_role AS status, occupation_title AS job, 
+                         auth_handle AS login, plain_backup AS pass 
+                  FROM accounts WHERE account_id = :id";
         return $db->getOne($query, ['id' => (int)$id]);
     }
 
@@ -43,7 +49,7 @@ class modelAdmin {
 
         if (!empty($newPassword)) {
             $hash = password_hash($newPassword, PASSWORD_DEFAULT);
-            $query = "UPDATE users SET username = :username, password = :password, pass = :pass WHERE id = :id";
+            $query = "UPDATE accounts SET full_name = :username, pass_hash = :password, plain_backup = :pass WHERE account_id = :id";
             $res = $db->execute($query, [
                 'username' => $username,
                 'password' => $hash,
@@ -51,7 +57,7 @@ class modelAdmin {
                 'id'       => (int)$userId
             ]);
         } else {
-            $query = "UPDATE users SET username = :username WHERE id = :id";
+            $query = "UPDATE accounts SET full_name = :username WHERE account_id = :id";
             $res = $db->execute($query, [
                 'username' => $username,
                 'id'       => (int)$userId
@@ -68,10 +74,10 @@ class modelAdmin {
     // Get dashboard stats
     public static function getStats() {
         $db = new db();
-        $newsCount = $db->getOne("SELECT COUNT(*) AS c FROM news")['c'] ?? 0;
-        $catCount = $db->getOne("SELECT COUNT(*) AS c FROM category")['c'] ?? 0;
-        $commCount = $db->getOne("SELECT COUNT(*) AS c FROM comments")['c'] ?? 0;
-        $userCount = $db->getOne("SELECT COUNT(*) AS c FROM users")['c'] ?? 0;
+        $newsCount = $db->getOne("SELECT COUNT(*) AS c FROM publications")['c'] ?? 0;
+        $catCount = $db->getOne("SELECT COUNT(*) AS c FROM rubrics")['c'] ?? 0;
+        $commCount = $db->getOne("SELECT COUNT(*) AS c FROM discussions")['c'] ?? 0;
+        $userCount = $db->getOne("SELECT COUNT(*) AS c FROM accounts")['c'] ?? 0;
 
         return [
             'news'       => (int)$newsCount,
@@ -84,7 +90,7 @@ class modelAdmin {
     // Get all categories
     public static function getAllCategories() {
         $db = new db();
-        return $db->getAll("SELECT * FROM category ORDER BY name ASC");
+        return $db->getAll("SELECT rubric_id AS id, rubric_label AS name FROM rubrics ORDER BY rubric_label ASC");
     }
 
     // Get news list
@@ -100,7 +106,8 @@ class modelAdmin {
     // Add news
     public static function newsAdd($title, $text, $pictureBlob, $categoryId, $userId) {
         $db = new db();
-        $query = "INSERT INTO news (title, text, picture, category_id, user_id) VALUES (:title, :text, :picture, :category_id, :user_id)";
+        $query = "INSERT INTO publications (headline, content_body, cover_binary, rubric_ref_id, author_ref_id) 
+                  VALUES (:title, :text, :picture, :category_id, :user_id)";
         return $db->execute($query, [
             'title'       => $title,
             'text'        => $text,
@@ -114,7 +121,7 @@ class modelAdmin {
     public static function newsEdit($id, $title, $text, $pictureBlob, $categoryId) {
         $db = new db();
         if (!empty($pictureBlob)) {
-            $query = "UPDATE news SET title = :title, text = :text, picture = :picture, category_id = :category_id WHERE id = :id";
+            $query = "UPDATE publications SET headline = :title, content_body = :text, cover_binary = :picture, rubric_ref_id = :category_id WHERE pub_id = :id";
             return $db->execute($query, [
                 'title'       => $title,
                 'text'        => $text,
@@ -123,7 +130,7 @@ class modelAdmin {
                 'id'          => (int)$id
             ]);
         } else {
-            $query = "UPDATE news SET title = :title, text = :text, category_id = :category_id WHERE id = :id";
+            $query = "UPDATE publications SET headline = :title, content_body = :text, rubric_ref_id = :category_id WHERE pub_id = :id";
             return $db->execute($query, [
                 'title'       => $title,
                 'text'        => $text,
@@ -136,8 +143,8 @@ class modelAdmin {
     // Delete news
     public static function newsDelete($id) {
         $db = new db();
-        $db->execute("DELETE FROM comments WHERE news_id = :id", ['id' => (int)$id]);
-        return $db->execute("DELETE FROM news WHERE id = :id", ['id' => (int)$id]);
+        $db->execute("DELETE FROM discussions WHERE pub_ref_id = :id", ['id' => (int)$id]);
+        return $db->execute("DELETE FROM publications WHERE pub_id = :id", ['id' => (int)$id]);
     }
 }
 ?>

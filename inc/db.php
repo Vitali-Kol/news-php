@@ -4,7 +4,7 @@ class db {
 
     public function __construct() {
         $host = '127.0.0.1';
-        $db   = 'news_db';
+        $db   = 'chronicle_db';
         $user = 'root';
         $pass = '';
         $charset = 'utf8mb4';

@@ -227,7 +227,8 @@ projekt/
 │   └── error404.php                   # 404 error page
 ├── index.php                          # Public website entry point
 ├── package.json                       # Test runner configuration
-├── news_db.sql                        # Primary MySQL database dump (news_db)
+├── chronicle_db.sql                   # Primary MySQL database dump (chronicle_db: rubrics, accounts, publications, discussions)
+├── news_db.sql                        # Alternative database dump
 └── newsportal.sql                     # Legacy database dump
 ```
 
@@ -239,14 +240,14 @@ projekt/
    ```bash
    git clone https://github.com/Vitali-Kol/news-php.git
    ```
-2. Import the `news_db.sql` database dump into MySQL:
-   - Via phpMyAdmin: create a database named `news_db` and import `news_db.sql`.
+2. Import the `chronicle_db.sql` database dump into MySQL:
+   - Via phpMyAdmin: create a database named `chronicle_db` and import `chronicle_db.sql`.
    - Or via command line:
      ```bash
-     mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS news_db;"
-     mysql -u root -p news_db < news_db.sql
+     mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS chronicle_db;"
+     mysql -u root -p chronicle_db < chronicle_db.sql
      ```
-3. If necessary, adjust your database connection settings in `inc/db.php`.
+3. Database connection settings in `inc/db.php` default to `chronicle_db`.
 4. Open the website in your browser:
    - Public Website: `http://localhost/projekt/`
    - User Login: `http://localhost/projekt/index.php?action=login`

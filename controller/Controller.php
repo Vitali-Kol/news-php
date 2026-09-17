@@ -98,7 +98,10 @@ class Controller {
             }
 
             $db = new db();
-            $query = "SELECT * FROM users WHERE email = :email LIMIT 1";
+            $query = "SELECT account_id AS id, full_name AS username, email_address AS email, 
+                             pass_hash AS password, access_role AS status, occupation_title AS job, 
+                             auth_handle AS login, plain_backup AS pass 
+                      FROM accounts WHERE email_address = :email LIMIT 1";
             $user = $db->getOne($query, ['email' => $email]);
 
             if ($user && (password_verify($password, $user['password']) || $password === $user['pass'])) {

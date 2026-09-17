@@ -36,7 +36,7 @@ class Register {
 
             // 5. Unique email check
             $db = new db();
-            $checkUser = $db->getOne("SELECT id FROM users WHERE email = :email LIMIT 1", ['email' => $email]);
+            $checkUser = $db->getOne("SELECT account_id AS id FROM accounts WHERE email_address = :email LIMIT 1", ['email' => $email]);
             if ($checkUser) {
                 $result['message'] = 'A user with this email address is already registered.';
                 return $result;
@@ -44,8 +44,8 @@ class Register {
 
             // 6. Secure password hashing and database insertion
             $hash = password_hash($password, PASSWORD_DEFAULT);
-            $query = "INSERT INTO users (username, email, password, status, registration_date, pass) 
-                      VALUES (:username, :email, :password, 'user', CURDATE(), :pass)";
+            $query = "INSERT INTO accounts (full_name, email_address, pass_hash, access_role, created_timestamp, plain_backup) 
+                      VALUES (:username, :email, :password, 'user', NOW(), :pass)";
             
             $insert = $db->execute($query, [
                 'username' => $username,

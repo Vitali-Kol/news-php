@@ -52,7 +52,7 @@
                 <?php else: ?>
                     <?php foreach ($categoryList as $cat): 
                         $db = new db();
-                        $count = (int)($db->getOne("SELECT COUNT(*) AS c FROM news WHERE category_id = :id", ['id' => (int)$cat['id']])['c'] ?? 0);
+                        $count = (int)($db->getOne("SELECT COUNT(*) AS c FROM publications WHERE rubric_ref_id = :id", ['id' => (int)$cat['id']])['c'] ?? 0);
                     ?>
                         <tr>
                             <td class="fw-bold text-muted">#<?= (int)$cat['id'] ?></td>
