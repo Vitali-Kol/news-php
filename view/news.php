@@ -1,11 +1,14 @@
 <?php
 class ViewNews {
-    // Helper method for Base64 Data URI image
-    public static function getImageSrc($blob) {
-        if (!empty($blob)) {
-            return 'data:image/jpeg;base64,' . base64_encode($blob);
+    // Helper method for image source (handles URLs and Base64 Data URI)
+    public static function getImageSrc($picture) {
+        if (empty($picture)) {
+            return 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800&auto=format&fit=crop&q=80';
         }
-        return 'https://via.placeholder.com/600x400?text=No+Image';
+        if (is_string($picture) && (strpos($picture, 'http://') === 0 || strpos($picture, 'https://') === 0 || strpos($picture, 'data:') === 0)) {
+            return htmlspecialchars($picture);
+        }
+        return 'data:image/jpeg;base64,' . base64_encode($picture);
     }
 
     // Render single news card

@@ -48,7 +48,14 @@
                     </tr>
                 <?php else: ?>
                     <?php foreach ($newsList as $item): 
-                        $imgSrc = !empty($item['picture']) ? 'data:image/jpeg;base64,' . base64_encode($item['picture']) : 'https://via.placeholder.com/80x50?text=No+Img';
+                        $pic = $item['picture'] ?? null;
+                        if (!empty($pic) && is_string($pic) && (strpos($pic, 'http://') === 0 || strpos($pic, 'https://') === 0 || strpos($pic, 'data:') === 0)) {
+                            $imgSrc = htmlspecialchars($pic);
+                        } elseif (!empty($pic)) {
+                            $imgSrc = 'data:image/jpeg;base64,' . base64_encode($pic);
+                        } else {
+                            $imgSrc = 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=150&auto=format&fit=crop&q=80';
+                        }
                     ?>
                         <tr>
                             <td class="fw-bold text-muted">#<?= (int)$item['id'] ?></td>

@@ -1,6 +1,13 @@
 <?php
 // Single News Article Admin Detail View
-$currentImg = !empty($news['picture']) ? 'data:image/jpeg;base64,' . base64_encode($news['picture']) : '';
+$pic = $news['picture'] ?? null;
+if (!empty($pic) && is_string($pic) && (strpos($pic, 'http://') === 0 || strpos($pic, 'https://') === 0 || strpos($pic, 'data:') === 0)) {
+    $currentImg = htmlspecialchars($pic);
+} elseif (!empty($pic)) {
+    $currentImg = 'data:image/jpeg;base64,' . base64_encode($pic);
+} else {
+    $currentImg = '';
+}
 ?>
 <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
     <div>
