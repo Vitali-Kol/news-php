@@ -45,7 +45,7 @@ class ViewNews {
                 </div>
                 <div class="card-body d-flex flex-column p-4">
                     <h5 class="card-title text-truncate-2 mb-2">
-                        <a href="index.php?action=read&id=' . $id . '" class="text-dark text-decoration-none fw-bold">' . $title . '</a>
+                        <a href="index.php?action=read&id=' . $id . '" class="news-card-title-link fw-bold">' . $title . '</a>
                     </h5>
                     <p class="card-text text-muted small flex-grow-1">' . htmlspecialchars($previewText) . '</p>
                     <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top">
@@ -131,12 +131,12 @@ class ViewNews {
                 <img src="' . $imgSrc . '" class="img-fluid rounded-3 shadow-sm" alt="' . $title . '" style="max-height: 480px; width: 100%; object-fit: cover;">
             </div>
 
-            <div class="news-content fs-5 lh-lg text-dark mb-4" style="text-align: justify;">
+            <div class="news-content fs-5 lh-lg mb-4" style="text-align: justify;">
                 ' . $text . '
             </div>
 
             <!-- Social Share Bar & Actions -->
-            <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 p-3 bg-light rounded-3 mb-4">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 p-3 bg-body-tertiary rounded-3 mb-4">
                 <div class="d-flex align-items-center gap-2">
                     <span class="fw-semibold small text-muted"><i class="bi bi-share me-1"></i>Share:</span>
                     <button class="btn btn-sm btn-outline-secondary rounded-pill px-3" onclick="copyArticleLink()" id="copyBtn">

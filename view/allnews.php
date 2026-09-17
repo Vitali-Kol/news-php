@@ -6,12 +6,12 @@ $searchQuery = $searchQuery ?? '';
 <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom flex-wrap gap-2">
     <div>
         <?php if ($isSearch): ?>
-            <h2 class="h4 fw-bold text-dark mb-1">
+            <h2 class="h4 fw-bold mb-1">
                 <i class="bi bi-search text-primary me-2"></i>Search Results
             </h2>
-            <p class="text-muted small mb-0">Showing articles matching: <mark class="px-2 rounded"><?= htmlspecialchars($searchQuery) ?></mark></p>
+            <p class="text-body-secondary small mb-0">Showing articles matching: <mark class="px-2 rounded"><?= htmlspecialchars($searchQuery) ?></mark></p>
         <?php else: ?>
-            <h2 class="h4 fw-bold text-dark mb-0">
+            <h2 class="h4 fw-bold mb-0">
                 <i class="bi bi-collection text-primary me-2"></i>All News
             </h2>
         <?php endif; ?>

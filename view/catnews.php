@@ -3,7 +3,7 @@
 $categoryTitle = isset($category['name']) ? htmlspecialchars($category['name']) : 'Category';
 ?>
 <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
-    <h2 class="h4 fw-bold text-dark mb-0">
+    <h2 class="h4 fw-bold mb-0">
         <i class="bi bi-tag text-primary me-2"></i>Category: <span class="text-primary"><?= $categoryTitle ?></span>
     </h2>
     <span class="badge bg-primary rounded-pill px-3 py-2">

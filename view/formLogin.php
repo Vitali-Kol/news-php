@@ -24,7 +24,7 @@
             <div class="mb-3">
                 <label for="email" class="form-label fw-semibold">Email Address</label>
                 <div class="input-group">
-                    <span class="input-group-text bg-light"><i class="bi bi-envelope"></i></span>
+                    <span class="input-group-text bg-body-tertiary text-body-secondary"><i class="bi bi-envelope"></i></span>
                     <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required autofocus value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
                 </div>
             </div>
@@ -32,7 +32,7 @@
             <div class="mb-4">
                 <label for="password" class="form-label fw-semibold">Password</label>
                 <div class="input-group">
-                    <span class="input-group-text bg-light"><i class="bi bi-lock"></i></span>
+                    <span class="input-group-text bg-body-tertiary text-body-secondary"><i class="bi bi-lock"></i></span>
                     <input type="password" class="form-control" id="password" name="password" placeholder="Your password" required>
                 </div>
             </div>
@@ -41,15 +41,15 @@
                 <i class="bi bi-box-arrow-in-right me-1"></i> Sign In
             </button>
 
-            <div class="text-center small text-muted mb-4">
+            <div class="text-center small text-body-secondary mb-4">
                 Don't have an account? <a href="index.php?action=registerForm" class="text-primary text-decoration-none fw-semibold">Register now</a>
             </div>
 
             <hr class="my-4">
 
             <div class="text-center">
-                <p class="small text-muted mb-2">Are you an administrator?</p>
-                <a href="admin/index.php" class="btn btn-outline-dark btn-sm rounded-pill px-4">
+                <p class="small text-body-secondary mb-2">Are you an administrator?</p>
+                <a href="admin/index.php" class="btn btn-outline-secondary btn-sm rounded-pill px-4">
                     <i class="bi bi-shield-lock me-1"></i> Admin Panel Login
                 </a>
             </div>
