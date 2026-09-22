@@ -228,8 +228,6 @@ projekt/
 ├── index.php                          # Public website entry point
 ├── package.json                       # Test runner configuration
 ├── chronicle_db.sql                   # Primary MySQL database dump (chronicle_db: rubrics, accounts, publications, discussions)
-├── news_db.sql                        # Alternative database dump
-└── newsportal.sql                     # Legacy database dump
 ```
 
 ---
